@@ -1,0 +1,19 @@
+# Dependencies — never commit; Vercel installs fresh on Linux
+node_modules/
+
+# Build
+dist/
+.vercel/
+
+# Local / OS
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.log
+
+# Editor
+.idea/
+.vscode/
+*.swp
