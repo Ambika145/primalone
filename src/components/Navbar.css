@@ -1,0 +1,102 @@
+.site-nav {
+  position: sticky; top: 0; z-index: 40;
+  transition: transform .5s var(--ease-out), background .4s, box-shadow .4s;
+}
+.site-nav.is-scrolled {
+  background: rgba(251, 248, 242, .86);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.site-nav.is-hidden { transform: translateY(-100%); }
+/* backdrop-filter/transform would make the fixed overlay relative to the header, so drop them while open */
+.site-nav.is-menu { background: var(--night); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; }
+
+.site-nav__bar {
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  position: relative; z-index: 2;
+}
+.site-nav__logo { display: grid; }
+.site-nav__logo img { grid-area: 1 / 1; height: 28px; width: auto; transition: opacity .8s var(--ease); }
+.site-nav__logo .logo-on-dark { opacity: 0; }
+
+/* Over the hero's night scene (and inside the open menu) the bar switches to light type */
+.is-menu .site-nav__logo .logo-on-light,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .logo-on-light { opacity: 0; }
+.is-menu .site-nav__logo .logo-on-dark,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .logo-on-dark { opacity: 1; }
+.site-nav__links a, .site-nav__cart, .site-nav__menu-btn { transition: color .8s var(--ease), opacity .25s, background .25s; }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__links a,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cart,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__menu-btn { color: var(--cream); }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__links a::after { background: var(--gold-soft); }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cart:hover,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__menu-btn:hover { background: rgba(246, 241, 231, .1); }
+/* Over the hero photo, icon buttons get a soft backing so they stay readable on any part of the image */
+html[data-hero-tone] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav__cart,
+html[data-hero-tone] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav__menu-btn {
+  background: rgba(251, 248, 242, .78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav__cart,
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav__menu-btn { background: rgba(14, 27, 18, .55); }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill-bg: var(--cream); --pill-fg: var(--forest); --pill-hover: #fff; }
+
+.site-nav__links { gap: clamp(20px, 2.4vw, 38px); font-size: 15px; font-weight: 500; }
+.site-nav__links a { position: relative; padding: 6px 0; color: var(--ink); opacity: .78; transition: opacity .25s; }
+.site-nav__links a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--green);
+  transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-out);
+}
+.site-nav__links a:hover, .site-nav__links a.is-active { opacity: 1; }
+.site-nav__links a:hover::after, .site-nav__links a.is-active::after { transform: scaleX(1); transform-origin: left; }
+
+.site-nav__actions { display: flex; align-items: center; gap: 8px; }
+.site-nav__cart, .site-nav__menu-btn {
+  position: relative; width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: transparent; color: var(--ink);
+  transition: background .25s;
+}
+.site-nav__cart:hover, .site-nav__menu-btn:hover { background: var(--sand); }
+.is-menu .site-nav__cart, .is-menu .site-nav__menu-btn { color: var(--cream); }
+.is-menu .site-nav__cart:hover, .is-menu .site-nav__menu-btn:hover { background: rgba(246,241,231,.1); }
+.site-nav__count {
+  position: absolute; top: 5px; right: 3px; min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: 9px; background: var(--green); color: #fff;
+  font-size: 10.5px; font-weight: 600; display: grid; place-items: center;
+}
+.site-nav__cart.is-bump .site-nav__count { animation: cart-bump .5s var(--ease-out); }
+@keyframes cart-bump { 40% { transform: scale(1.45); } }
+.site-nav__cta { min-height: 46px; padding-inline: 22px; font-size: 14.5px; }
+.is-menu .site-nav__cta { display: none !important; }
+
+/* Mobile overlay */
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 1;
+  padding-top: calc(var(--nav-h) + 38px);
+  clip-path: circle(0 at calc(100% - 40px) 76px);
+  visibility: hidden;
+  transition: clip-path .7s var(--ease-out), visibility 0s .7s;
+  overflow-y: auto;
+}
+.mobile-menu.is-open { clip-path: circle(150% at calc(100% - 40px) 76px); visibility: visible; transition: clip-path .8s var(--ease-out), visibility 0s; }
+.mobile-menu__inner { display: flex; flex-direction: column; justify-content: space-between; min-height: calc(100% - 40px); padding-block: 24px 40px; }
+.mobile-menu li, .mobile-menu__foot { opacity: 0; transform: translateY(24px); transition: opacity .5s, transform .7s var(--ease-out); }
+.mobile-menu.is-open li, .mobile-menu.is-open .mobile-menu__foot { opacity: 1; transform: none; transition-delay: calc(180ms + var(--i) * 60ms); }
+.mobile-menu li a {
+  display: flex; align-items: baseline; gap: 18px;
+  padding: 12px 0; border-bottom: 1px solid var(--line-dark);
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: clamp(32px, 8.4vw, 48px); line-height: 1.15; color: var(--cream);
+}
+.mobile-menu li a .mono { color: var(--gold-soft); font-size: 11px; }
+.mobile-menu__foot { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.mobile-menu__foot .mono { color: var(--muted-dark); }
+
+@media (max-width: 575.98px) {
+  :root { --nav-h: 64px; }
+  .site-nav__logo img { height: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu, .mobile-menu.is-open { transition: none; }
+  .mobile-menu li, .mobile-menu__foot { transition: none; }
+}

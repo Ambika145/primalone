@@ -1,0 +1,226 @@
+/* Intro: a single-line heading and the description, on the same sand as the Origin block */
+.sequence__intro { padding-top: clamp(72px, 8vw, 120px); background: var(--sand); }
+.sequence__title {
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.035em;
+  font-size: clamp(30px, 3.4vw, 54px); line-height: 1.1;
+}
+.sequence__title .is-accent { color: var(--green); }
+.sequence__lead { margin-top: clamp(16px, 1.6vw, 22px); max-width: none; }
+
+.pblock {
+  position: relative; overflow: hidden;
+  padding-block: clamp(72px, 9vw, 136px);
+  scroll-margin-top: 40px;
+}
+.pblock--morning { background: var(--sand); padding-top: clamp(56px, 6vw, 88px); }
+/* Night: a clean cut from morning, lit by a low lamp from the top right like the dusk photography */
+.pblock--night {
+  background:
+    radial-gradient(45% 55% at 92% 8%, rgba(217, 160, 80, .16), transparent 70%),
+    var(--night);
+}
+
+/* Oversized product name, set behind the block like an editorial folio */
+.pblock__ghost {
+  position: absolute; right: -2vw; bottom: -0.18em;
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: clamp(110px, 19vw, 300px); line-height: 1;
+  color: rgba(17, 26, 20, .05); pointer-events: none; user-select: none; white-space: nowrap;
+}
+.pblock--night .pblock__ghost { color: rgba(246, 241, 231, .045); }
+.pblock .shell { position: relative; }
+
+.pblock__heading { display: flex; flex-direction: column; gap: 14px; margin-bottom: 26px; }
+.pblock__name { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: clamp(52px, 5.6vw, 84px); line-height: .95; letter-spacing: -.05em; }
+.pblock__title { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: clamp(20px, 1.7vw, 25px); line-height: 1.2; letter-spacing: -.02em; max-width: 380px; }
+.pblock--morning .pblock__title { color: var(--olive); }
+.pblock--night .pblock__title { color: var(--gold-soft); }
+.pblock__para { font-size: 16.5px; line-height: 1.75; color: #3c463f; max-width: 420px; }
+.pblock__para + .pblock__para { margin-top: 16px; }
+.pblock__para strong { font-weight: 600; color: var(--ink); }
+.pblock--night .pblock__para { color: var(--muted-dark); }
+.pblock--night .pblock__para strong { color: var(--cream); }
+
+.pblock__visual { margin: 0; }
+.pblock__frame { aspect-ratio: 4 / 5; border-radius: var(--radius-lg); }
+.pblock__frame img { transform: translateY(var(--parallax, 0px)) scale(1.12); }
+.pblock--morning .pblock__frame img { object-position: 38% 50%; }
+.pblock--night .pblock__frame img { object-position: 50% 50%; }
+/* Transparent product cut-out: shown whole, standing on a soft pool of light and shadow */
+.pblock__visual--cutout { position: relative; display: flex; justify-content: center; }
+.pblock__visual--cutout::before {
+  content: ''; position: absolute; left: 8%; right: 8%; top: 12%; bottom: 10%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 248, 242, .9), rgba(251, 248, 242, 0));
+}
+.pblock__cutout { position: relative; width: min(100%, 360px); transform: translateY(calc(var(--parallax, 0px) * -1)); }
+.pblock__cutout img { width: 100%; height: auto; filter: drop-shadow(0 24px 22px rgba(62, 90, 54, .16)); }
+@media (max-width: 767.98px) { .pblock__cutout { width: min(78%, 300px); } }
+
+/* Live pour: the bottle breathes gently, sunlight turns slowly behind it, and the canvas
+   (PourAnimation) streams powder, dissolving clouds and bubbles over the photo. */
+.pblock__float { position: relative; animation: pour-float 6s ease-in-out infinite; }
+@keyframes pour-float { 50% { transform: translateY(-8px); } }
+.pblock__cutout::before {
+  content: ''; position: absolute; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; z-index: -1;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(217, 191, 134, .22) 0deg 6deg, transparent 6deg 18deg);
+  -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 72%); mask: radial-gradient(closest-side, #000 20%, transparent 72%);
+  animation: pour-rays 60s linear infinite;
+}
+@keyframes pour-rays { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .pblock__float, .pblock__cutout::before, .jar-orbit, .jar-orbit__upright { animation: none; }
+}
+.pblock__cutout::after {
+  content: ''; position: absolute; left: 22%; right: 22%; bottom: -10px; height: 26px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(17, 26, 20, .22), transparent); z-index: -1;
+}
+.pblock__caption { margin-top: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.pblock__contains h4 { padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.pblock--night .pblock__contains h4 { border-color: var(--line-dark); color: var(--muted-dark); }
+.contains li {
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: clamp(17px, 1.4vw, 20px); line-height: 1.3; letter-spacing: -.01em; font-weight: 500;
+  transition: padding .45s var(--ease-out), color .3s;
+}
+.pblock--night .contains li { border-color: var(--line-dark); }
+.contains li:hover { padding-left: 10px; }
+/* Rows tick in one after another when the list reveals */
+.reveal .contains li { opacity: 0; transform: translateX(-12px); transition: opacity .6s, transform .8s var(--ease-out), padding .45s var(--ease-out); transition-delay: calc(200ms + var(--i) * 70ms), calc(200ms + var(--i) * 70ms), 0s; }
+.reveal.is-in .contains li { opacity: 1; transform: none; }
+.pblock__meta { margin: 20px 0 10px; }
+
+@media (max-width: 991.98px) {
+  .pblock__name { font-size: clamp(48px, 13vw, 76px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal .contains li { opacity: 1; transform: none; transition: none; }
+}
+/* The section is already sand, so the note sits on a lighter panel to stand out */
+.pblock--morning .safety--light { background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* Origin jar: travels a small circle and stays upright. The outer layer turns, the offset layer
+   sets the circle's radius, and the inner layer turns back so the jar never tilts. */
+.jar-orbit { --r: clamp(14px, 1.8vw, 24px); --t: 9s; position: relative; animation: jar-turn var(--t) linear infinite; }
+.jar-orbit__offset { translate: 0 calc(var(--r) * -1); }
+.jar-orbit__upright { animation: jar-turn var(--t) linear infinite reverse; }
+@keyframes jar-turn { to { rotate: 360deg; } }
+/* With the orbiting jar, the light behind it holds still so only the product moves */
+.pblock__cutout:has(.jar-orbit)::before { animation: none; }
+/* The jar cut-out is chunkier than the old bottle, so it sits smaller */
+.pblock__cutout:has(.jar-orbit) { width: min(100%, 290px); margin-top: 24px; }
+@media (max-width: 767.98px) { .pblock__cutout:has(.jar-orbit) { width: min(62%, 230px); } }
+
+/* Origin photo: the frame stays put while the photo inside travels a slow, small circle.
+   It is scaled up (see .pblock__frame img) so the edges never show. */
+.pblock__frame--drift img { animation: photo-circle 14s linear infinite; }
+@keyframes photo-circle {
+  0% { translate: 2.20% 0.00%; }
+  6.25% { translate: 2.03% 0.84%; }
+  12.5% { translate: 1.56% 1.56%; }
+  18.75% { translate: 0.84% 2.03%; }
+  25% { translate: 0.00% 2.20%; }
+  31.25% { translate: -0.84% 2.03%; }
+  37.5% { translate: -1.56% 1.56%; }
+  43.75% { translate: -2.03% 0.84%; }
+  50% { translate: -2.20% 0.00%; }
+  56.25% { translate: -2.03% -0.84%; }
+  62.5% { translate: -1.56% -1.56%; }
+  68.75% { translate: -0.84% -2.03%; }
+  75% { translate: -0.00% -2.20%; }
+  81.25% { translate: 0.84% -2.03%; }
+  87.5% { translate: 1.56% -1.56%; }
+  93.75% { translate: 2.03% -0.84%; }
+  100% { translate: 2.20% -0.00%; }
+}
+@media (prefers-reduced-motion: reduce) { .pblock__frame--drift img { animation: none; } }
+
+/* ================= Motion (layout unchanged) ================= */
+/* Masked rise: each word or letter slides up out of its own clip, one after another */
+.rise { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.rise > span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease-out); transition-delay: calc(var(--n) * 70ms); }
+.rise--tight > span { transition-delay: calc(120ms + var(--n) * 45ms); }
+.reveal.is-in .rise > span { transform: none; }
+/* the heading Reveal itself shouldn't also slide; the words do the work */
+.sequence__title.reveal, .pblock__text.reveal { transform: none; opacity: 1; }
+
+/* Text column: subtitle, paragraphs and the note follow the product name in sequence */
+.pblock__text .pblock__title, .pblock__text .pblock__para, .pblock__text .safety {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .8s var(--ease-out), transform 1s var(--ease-out);
+}
+.pblock__text.is-in .pblock__title { opacity: 1; transform: none; transition-delay: .45s; }
+.pblock__text.is-in .pblock__para { opacity: 1; transform: none; transition-delay: .6s; }
+.pblock__text.is-in .pblock__para + .pblock__para { transition-delay: .72s; }
+.pblock__text.is-in .safety { opacity: 1; transform: none; transition-delay: .88s; }
+
+/* Image: as the mask opens, the photo settles from a slight zoom */
+.pblock__visual .pblock__frame img { transition: scale 1.8s var(--ease-out); }
+.pblock__visual:not(.is-in) .pblock__frame img { scale: 1.18; }
+
+/* Ingredient rows: each divider draws across from the left as its row arrives */
+.pblock__contains .contains li {
+  --row-line: var(--line);
+  border-bottom-color: transparent;
+  background: linear-gradient(var(--row-line), var(--row-line)) left bottom / 0% 1px no-repeat;
+  transition: opacity .6s, transform .8s var(--ease-out), padding .45s var(--ease-out), background-size 1.1s var(--ease-out);
+  transition-delay: calc(200ms + var(--i) * 70ms), calc(200ms + var(--i) * 70ms), 0s, calc(280ms + var(--i) * 70ms);
+}
+.pblock--night .pblock__contains .contains li { --row-line: var(--line-dark); }
+.pblock__contains.is-in .contains li { background-size: 100% 1px; }
+
+/* Oversized product name behind each block glides sideways as the block scrolls past */
+@supports (animation-timeline: view()) {
+  .pblock__ghost { animation: ghost-glide linear both; animation-timeline: view(); }
+  @keyframes ghost-glide { from { translate: 14% 0; } to { translate: -10% 0; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise > span, .pblock__text .pblock__title, .pblock__text .pblock__para, .pblock__text .safety { transform: none; opacity: 1; transition: none; }
+  .pblock__visual:not(.is-in) .pblock__frame img { scale: 1; }
+  .pblock__contains .contains li { background-size: 100% 1px; transition: none; }
+  .pblock__ghost { animation: none; }
+}
+/* room for descenders (the "g" in Origin) inside the letter masks */
+.rise--tight { padding-bottom: .22em; margin-bottom: -.22em; }
+
+/* Product video — default: white studio ground multiplied into the frame colour. */
+.pblock--night .pblock__frame--video { background: var(--cream); }
+.pblock__video { display: block; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+
+/* True-alpha WebM (white keyed out): product keeps original colour on the night frame. */
+.pblock__frame--alpha {
+  background: transparent !important;
+}
+.pblock__video--alpha {
+  object-fit: contain;
+  mix-blend-mode: normal;
+}
+
+/* Restore still: full 360° turn on hover / tap (keyframes — CSS 0→360 transitions are a no-op). */
+.pblock__frame--spin {
+  --spin-scale: 1.06;
+  perspective: 1400px;
+  cursor: pointer;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+.pblock__visual .pblock__frame--spin img {
+  /* Override the settle-zoom scale so it cannot cancel the spin */
+  scale: 1;
+  transition: none;
+  transform: scale(var(--spin-scale));
+  transform-origin: center center;
+  backface-visibility: visible;
+  will-change: transform;
+}
+.pblock__visual .pblock__frame--spin.is-spinning img {
+  animation: restore-spin-y 1.5s cubic-bezier(.4, 0, .2, 1) both;
+}
+@keyframes restore-spin-y {
+  0%   { transform: scale(var(--spin-scale)) rotateY(0deg); }
+  100% { transform: scale(var(--spin-scale)) rotateY(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pblock__visual .pblock__frame--spin.is-spinning img { animation: none; }
+}

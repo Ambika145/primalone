@@ -1,0 +1,150 @@
+/* Why sequence: "the day, two ways". One day drawn twice — stacked (sand, crowded) and
+   sequenced (forest, two doses) — split by a draggable handle. */
+.why { background: var(--paper); }
+.why__head { margin-bottom: clamp(36px, 4.5vw, 64px); }
+.why__title .is-accent { color: var(--green); }
+.why__body { margin-top: clamp(16px, 1.6vw, 22px); max-width: none; font-size: clamp(16px, 1.2vw, 18px); }
+.why__body-line { display: block; }
+
+.day2 { --pos: 100%; }
+.day2__stage {
+  position: relative; overflow: hidden; isolation: isolate;
+  height: clamp(380px, 34vw, 480px); border-radius: var(--radius-lg);
+  cursor: ew-resize; touch-action: pan-y; user-select: none;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .7s var(--ease-out), transform .9s var(--ease-out);
+}
+.day2.is-in .day2__stage { opacity: 1; transform: none; }
+.day2__layer { position: absolute; inset: 0; padding: clamp(22px, 2.6vw, 36px); }
+.day2__layer--stacked { background: var(--sand); }
+.day2__layer--seq {
+  background:
+    radial-gradient(40% 70% at 20% 55%, rgba(217, 191, 134, .18), transparent 70%),
+    radial-gradient(35% 60% at 88% 50%, rgba(246, 241, 231, .07), transparent 70%),
+    var(--forest);
+  color: var(--cream);
+  clip-path: inset(0 0 0 var(--pos));
+}
+/* The handle eases into place unless it's being dragged */
+.day2__layer--seq, .day2__handle { transition: clip-path 1.5s var(--ease-out), left 1.5s var(--ease-out); }
+.is-dragging .day2__layer--seq, .is-dragging .day2__handle,
+.is-touched .day2__layer--seq, .is-touched .day2__handle { transition-duration: .12s; }
+
+/* Labels: one-word only */
+.day2__label { position: relative; z-index: 2; max-width: 46%; }
+.day2__label--right { margin-left: auto; text-align: right; }
+.day2__label strong { font-size: clamp(22px, 2vw, 30px); font-weight: 700; letter-spacing: -.03em; line-height: 1.1; }
+.day2__layer--seq .day2__label strong { color: var(--gold-soft); }
+
+/* Track: where the day's marks sit, above the hour axis */
+.day2__track { position: absolute; left: clamp(22px, 2.6vw, 36px); right: clamp(22px, 2.6vw, 36px); top: 28%; bottom: 52px; }
+
+/* Stacked capsules */
+.capsule {
+  position: absolute; width: clamp(34px, 3.4vw, 50px); aspect-ratio: 2.6; border-radius: 999px;
+  rotate: var(--r);
+  box-shadow: inset -4px -3px 0 rgba(0, 0, 0, .07), 0 6px 12px -6px rgba(14, 27, 18, .4);
+  opacity: 0; translate: -50% -160%;
+  transition: opacity .5s, translate .9s var(--ease-out);
+  transition-delay: calc(180ms + var(--i) * 28ms);
+}
+.capsule::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 50%; border-radius: 0 999px 999px 0; background: rgba(255, 255, 255, .35); }
+.capsule--a { background: #b9b09a; }
+.capsule--b { background: #cfc6b0; }
+.capsule--c { background: #a49d88; }
+.capsule--d { background: #ddd5c2; }
+.day2.is-in .capsule { opacity: 1; translate: -50% -50%; }
+
+/* Sequenced doses */
+.day2__line {
+  position: absolute; top: 50%; height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(217, 191, 134, .25) 45%, rgba(246, 241, 231, .35));
+  opacity: 0; transition: opacity .6s var(--ease-out) .7s;
+}
+.day2.is-in .day2__line { opacity: 1; }
+.dose {
+  position: absolute; top: 50%; translate: -50% -50%;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .55s var(--ease-out), transform .7s var(--ease-out);
+}
+.dose--am { translate: -30% -50%; transition-delay: .75s; }
+.dose--pm { translate: -70% -50%; transition-delay: .95s; }
+.day2.is-in .dose { opacity: 1; transform: none; }
+.dose__jar {
+  width: clamp(56px, 6vw, 84px); aspect-ratio: 1; border-radius: 50%;
+  box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(217, 191, 134, .7), 0 18px 30px -12px rgba(0, 0, 0, .6);
+}
+.dose--pm .dose__jar { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(246, 241, 231, .5); outline: 1px dashed rgba(246, 241, 231, .5); outline-offset: 9px; }
+.dose__text { font-size: 14px; font-weight: 600; letter-spacing: .02em; }
+
+/* Hour axis */
+.day2__axis { position: absolute; left: clamp(22px, 2.6vw, 36px); right: clamp(22px, 2.6vw, 36px); bottom: 22px; height: 22px; border-top: 1px solid var(--line); }
+.day2__axis--light { border-color: var(--line-dark); }
+.day2__axis span {
+  position: absolute; top: 8px; translate: -50% 0; font-size: 11px; white-space: nowrap; letter-spacing: .04em; color: var(--muted);
+}
+.day2__axis span:first-child { translate: 0 0; }
+.day2__axis span:last-child { translate: -100% 0; }
+.day2__axis span::before { content: ''; position: absolute; left: 50%; top: -12px; height: 6px; width: 1px; background: currentColor; opacity: .5; }
+.day2__axis span:first-child::before { left: 0; }
+.day2__axis span:last-child::before { left: auto; right: 0; }
+.day2__axis--light span { color: var(--muted-dark); }
+
+/* Handle */
+.day2__handle {
+  position: absolute; top: 0; bottom: 0; left: var(--pos); width: 0; z-index: 3;
+  outline: none;
+}
+.day2__handle::before { content: ''; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--cream); box-shadow: 0 0 0 1px rgba(14, 27, 18, .12); }
+.day2__knob {
+  position: absolute; left: 0; top: 50%; translate: -50% -50%;
+  width: 52px; height: 52px; border-radius: 50%; display: grid; grid-auto-flow: column; place-content: center; gap: 2px;
+  background: var(--cream); color: var(--forest);
+  box-shadow: 0 10px 30px -8px rgba(14, 27, 18, .45);
+  transition: scale .3s var(--ease-out);
+}
+.day2__arrow--l { rotate: 180deg; }
+.day2__stage:hover .day2__knob, .is-dragging .day2__knob { scale: 1.08; }
+.day2__handle:focus-visible .day2__knob { box-shadow: 0 0 0 3px var(--green), 0 10px 30px -8px rgba(14, 27, 18, .45); }
+
+/* ---- Heading: line one piles up and pushes apart, line two arrives in order ---- */
+.why-t__line { display: block; }
+.why-t__pile { display: inline-block; opacity: 0; will-change: transform; }
+.why-t.is-in .why-t__pile { animation: why-unpile 1.7s cubic-bezier(.3, .7, .2, 1) both; animation-delay: calc(var(--k) * 40ms); }
+@keyframes why-unpile {
+  0%   { opacity: 0; transform: translate(var(--dx), calc(var(--dy0) + var(--dy) + 40px)) rotate(var(--r)); }
+  22%  { opacity: 1; transform: translate(var(--dx), calc(var(--dy0) + var(--dy))) rotate(var(--r)); }
+  34%  { transform: translate(calc(var(--dx) + var(--jx)), calc(var(--dy0) + var(--dy) * -1)) rotate(calc(var(--r) * -1)); }
+  46%  { transform: translate(calc(var(--dx) - var(--jx) * .6), calc(var(--dy0) + var(--dy))) rotate(var(--r)); }
+  56%  { transform: translate(var(--dx), calc(var(--dy0) + var(--dy) * .5)) rotate(calc(var(--r) * .5)); }
+  84%  { transform: translate(calc(var(--jx) * .25), 0) rotate(calc(var(--r) * -.15)); }
+  100% { opacity: 1; transform: none; }
+}
+
+.why-t__mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .14em; margin-bottom: -.14em; }
+.why-t__seq { display: inline-block; transform: translateY(110%); }
+.why-t.is-in .why-t__seq { animation: why-seq .8s var(--ease-out) both; animation-delay: calc(1.75s + var(--n) * 260ms); }
+@keyframes why-seq { to { transform: none; } }
+
+.why-t__last { position: relative; }
+.why-t__last::after {
+  content: ''; position: absolute; left: 0; right: .2em; bottom: .02em; height: 3px; border-radius: 3px;
+  background: var(--gold); transform: scaleX(0); transform-origin: left;
+}
+.why-t.is-in .why-t__last::after { animation: why-line .9s var(--ease-out) both; animation-delay: calc(1.75s + 3 * 260ms + .3s); }
+@keyframes why-line { to { transform: scaleX(1); } }
+
+@media (max-width: 767.98px) {
+  .day2__stage { height: 420px; }
+  .day2__label { max-width: 44%; }
+  .day2__track { top: 32%; }
+  .day2__axis span:nth-child(even) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .why-t__pile, .why-t__seq, .why-t__last::after { animation: none !important; opacity: 1; transform: none; }
+  .day2__stage, .day2__layer--seq, .day2__handle, .capsule, .dose, .day2__line { transition: none; }
+  .day2__stage { opacity: 1; transform: none; }
+  .capsule { opacity: 1; translate: -50% -50%; }
+  .dose, .day2__line { opacity: 1; transform: none; }
+}

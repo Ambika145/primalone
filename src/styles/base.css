@@ -1,0 +1,212 @@
+/* PrimalOne design tokens + base layer.
+   Palette is drawn from the packaging: forest/olive jar, gold foil, walnut lid,
+   cream Restore tub; brand green comes from the logo. */
+:root {
+  --night: #0e1b12;
+  --forest: #14261b;
+  --forest-2: #1d3626;
+  --forest-3: #2b4a35;
+  --olive: #3e5a36;
+  --green: #1a733c;
+  --green-soft: #8fc98a;
+  --gold: #b8924a;
+  --gold-soft: #d9bf86;
+  --walnut: #6e3b22;
+  --paper: #fbf8f2;
+  --cream: #f6f1e7;
+  --sand: #ece4d4;
+  --sand-2: #e0d5bf;
+  --ink: #111a14;
+  --muted: #545e56;
+  --muted-dark: #b4c0b6;
+  --line: rgba(17, 26, 20, .14);
+  --line-dark: rgba(246, 241, 231, .16);
+  --tbc-bg: #fff2bf;
+  --tbc-ink: #6b5300;
+
+  /* One typeface across the whole site. Change --font to swap it everywhere. */
+  --font: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sans: var(--font);
+  --display: var(--font);          /* headlines, product names, big numbers */
+  --display-weight: 600;
+  --display-tracking: -.04em;
+  --label: var(--font);            /* small uppercase labels and eyebrows */
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --section: clamp(88px, 11vw, 168px);
+  --radius: 20px;
+  --radius-lg: 32px;
+  --ease: cubic-bezier(.22, .61, .21, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --nav-h: 76px;
+
+  /* Bootstrap hooks so its utilities and grid inherit the brand */
+  --bs-body-font-family: var(--sans);
+  --bs-body-color: var(--ink);
+  --bs-body-bg: var(--paper);
+  --bs-border-color: var(--line);
+  --bs-link-color: var(--ink);
+  --bs-link-hover-color: var(--green);
+  --bs-gutter-x: 1.5rem;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+body.is-locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+.on-dark :focus-visible { outline-color: var(--gold-soft); }
+
+.skip-link {
+  position: absolute; left: 16px; top: -60px; z-index: 100;
+  background: var(--forest); color: var(--cream); padding: 10px 16px; border-radius: 10px;
+  transition: top .2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* Layout */
+.shell { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section); position: relative; }
+.on-dark { background: var(--forest); color: var(--cream); }
+.on-night { background: var(--night); color: var(--cream); }
+
+/* Type */
+.display, .h-xl, .h-lg, .h-md {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: 1;
+}
+.display { font-size: clamp(46px, 7vw, 112px); line-height: .96; letter-spacing: -.05em; }
+.h-xl { font-size: clamp(36px, 4.8vw, 72px); line-height: 1.02; }
+.h-lg { font-size: clamp(32px, 3.6vw, 54px); line-height: 1.06; }
+.h-md { font-size: clamp(26px, 2.5vw, 38px); line-height: 1.12; letter-spacing: -.03em; }
+.lead-text { font-size: clamp(17px, 1.35vw, 20px); line-height: 1.6; color: var(--muted); max-width: 560px; }
+.on-dark .lead-text, .on-night .lead-text { color: var(--muted-dark); }
+.mono { font-family: var(--label); font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.fine { font-size: 13px; line-height: 1.7; color: var(--muted); }
+.on-dark .fine, .on-night .fine { color: var(--muted-dark); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--label); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 22px;
+}
+.eyebrow__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.on-dark .eyebrow, .on-night .eyebrow { color: var(--gold-soft); }
+
+/* Pill buttons: label + arrow chip that slides on hover */
+.pill {
+  --pill-bg: var(--forest); --pill-fg: var(--cream); --chip-bg: var(--cream); --chip-fg: var(--forest);
+  display: inline-flex; align-items: center; gap: 14px;
+  min-height: 54px; padding: 6px 6px 6px 26px;
+  border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--pill-bg); color: var(--pill-fg);
+  font-weight: 500; font-size: 15.5px; letter-spacing: .005em;
+  transition: background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+  position: relative; isolation: isolate; overflow: hidden;
+  white-space: nowrap;
+}
+.pill:not(:has(.pill__arrow)) { padding-right: 26px; }
+.pill::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: var(--pill-hover, var(--green));
+  transform: translateX(-101%); transition: transform .45s var(--ease-out);
+}
+.pill:hover::before, .pill:focus-visible::before { transform: none; }
+.pill:active { transform: scale(.98); }
+.pill__arrow {
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--chip-bg); color: var(--chip-fg); overflow: hidden;
+}
+.pill__arrow .icon { transition: transform .45s var(--ease-out); }
+.pill:hover .pill__arrow .icon { animation: arrow-loop .5s var(--ease-out); }
+@keyframes arrow-loop { 0% { transform: none; } 49% { transform: translateX(140%); } 50% { transform: translateX(-140%); } 100% { transform: none; } }
+.pill--light { --pill-bg: var(--cream); --pill-fg: var(--forest); --chip-bg: var(--forest); --chip-fg: var(--cream); --pill-hover: #fff; }
+.pill--outline { --pill-bg: transparent; --pill-fg: var(--forest); --pill-hover: var(--forest); box-shadow: inset 0 0 0 1.5px currentColor; }
+.pill--outline:hover { --pill-fg: var(--cream); color: var(--cream); }
+.pill--outline-light { --pill-bg: transparent; --pill-fg: var(--cream); --chip-bg: var(--cream); --chip-fg: var(--forest); --pill-hover: rgba(246,241,231,.12); box-shadow: inset 0 0 0 1.5px rgba(246,241,231,.5); }
+.pill--block { width: 100%; justify-content: space-between; }
+.pill[disabled] { opacity: .5; cursor: not-allowed; }
+.pill[disabled]::before { display: none; }
+
+.text-link {
+  display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15.5px;
+  padding-block: 6px; position: relative;
+}
+.text-link::after {
+  content: ''; position: absolute; left: 0; right: 26px; bottom: 2px; height: 1px; background: currentColor;
+  transform-origin: right; transition: transform .45s var(--ease-out);
+}
+.text-link:hover::after { transform: scaleX(0); }
+.text-link .icon { transition: transform .35s var(--ease-out); }
+.text-link:hover .icon { transform: translateX(4px); }
+
+/* Review tag: client facts still to confirm. Remove before launch. */
+.tbc {
+  display: inline-flex; align-items: center; gap: 5px; vertical-align: middle;
+  font-family: var(--label); font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; line-height: 1.5;
+  background: var(--tbc-bg); color: var(--tbc-ink); border: 1px dashed #c9a400; border-radius: 6px; padding: 2px 7px;
+  white-space: nowrap;
+}
+.tbc::before { content: '!'; font-weight: 700; }
+
+/* Restore safety note: one style everywhere, per the brief */
+.safety {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14.5px; line-height: 1.55;
+  padding: 14px 16px; border-radius: 14px;
+  max-width: 460px;
+}
+.safety .icon { margin-top: 1px; }
+.safety--light { background: var(--sand); color: var(--ink); }
+.safety--light .icon { color: var(--green); }
+.safety--dark { background: rgba(246,241,231,.08); color: var(--cream); box-shadow: inset 0 0 0 1px var(--line-dark); }
+.safety--dark .icon { color: var(--gold-soft); }
+
+/* Scroll reveals */
+.reveal { transition: opacity .9s var(--ease-out), transform 1.1s var(--ease-out), clip-path 1.3s var(--ease-out); transition-delay: var(--delay, 0ms); }
+.reveal--up:not(.is-in) { opacity: 0; transform: translateY(36px); }
+.reveal--fade:not(.is-in) { opacity: 0; }
+/* The mask goes on the first child: IntersectionObserver treats a target clipped by its own
+   clip-path as invisible, so clipping the observed element would stop it ever revealing. */
+.reveal--mask > :first-child { clip-path: inset(0 0 0 0 round var(--radius-lg)); transition: clip-path 1.3s var(--ease-out); transition-delay: var(--delay, 0ms); }
+.reveal--mask:not(.is-in) > :first-child { clip-path: inset(100% 0 0 0 round var(--radius-lg)); }
+
+/* Masked line-by-line heading reveal */
+.split__line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.split__inner { display: inline-block; transform: translateY(105%); transition: transform 1.1s var(--ease-out); transition-delay: calc(var(--i) * 110ms); }
+.split.is-in .split__inner { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .split__inner { transition: none !important; }
+  .reveal--up:not(.is-in), .reveal--fade:not(.is-in) { opacity: 1; transform: none; }
+  .reveal--mask:not(.is-in) > :first-child { clip-path: none; }
+  .split__inner { transform: none; }
+  .pill::before, .pill__arrow .icon { transition: none; animation: none !important; }
+}
+
+/* Shared image frame: sand fallback while loading or if an image fails */
+.frame { position: relative; overflow: hidden; background: var(--sand); }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.on-dark .frame, .on-night .frame { background: var(--forest-2); }
+
+.visually-hidden-focusable:not(:focus) { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; }

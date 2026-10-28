@@ -1,0 +1,16 @@
+.sticky-buy { display: none; }
+@media (max-width: 767.98px) {
+  .sticky-buy {
+    display: flex; position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 45;
+    align-items: center; justify-content: space-between; gap: 12px;
+    padding: 8px 8px 8px 20px; border-radius: 999px;
+    background: var(--forest); color: var(--cream);
+    box-shadow: inset 0 0 0 1px rgba(246, 241, 231, .18), 0 14px 34px rgba(14, 27, 18, .35);
+    transform: translateY(150%); transition: transform .5s var(--ease-out);
+  }
+  .sticky-buy.is-shown { transform: none; }
+  .sticky-buy small { display: block; font-size: 12px; color: var(--muted-dark); }
+  .sticky-buy b { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: 17px; line-height: 1.2; }
+  .sticky-buy .pill { min-height: 46px; padding-inline: 20px; font-size: 14.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .sticky-buy { transition: none; } }

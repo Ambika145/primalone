@@ -1,0 +1,87 @@
+/* How it works: heading, lead, then three photo panels for morning → day → evening */
+.day { background: var(--cream); }
+.day__title {
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.035em;
+  font-size: clamp(30px, 3.4vw, 54px); line-height: 1.1; max-width: 1100px;
+}
+.day__title .is-accent { color: var(--green); }
+.day__lead { margin-top: clamp(16px, 1.6vw, 22px); max-width: none; }
+
+.day-panels {
+  display: flex; gap: 14px; margin-top: clamp(36px, 4.5vw, 64px);
+  height: clamp(500px, 64vh, 640px);
+}
+.day-panel {
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: var(--radius-lg);
+  color: var(--cream); cursor: pointer; outline: none;
+  transition: flex-grow .9s var(--ease-out), opacity .9s var(--ease-out), transform 1s var(--ease-out);
+}
+.day-panel.is-active { flex-grow: 1.55; }
+.day-panel:focus-visible { box-shadow: 0 0 0 3px var(--green); }
+
+.day-panel__img { position: absolute; inset: 0; }
+.day-panel__img img { transform: scale(1.08); transition: transform 1.6s var(--ease-out); animation: panel-drift 16s ease-in-out infinite alternate; }
+.day-panel.is-active .day-panel__img img { transform: scale(1.02); }
+.day-panel--morning .day-panel__img img { object-position: 50% 45%; }
+.day-panel--day .day-panel__img img { object-position: 50% 55%; }
+.day-panel--night .day-panel__img img { object-position: 60% 50%; animation-delay: -8s; }
+@keyframes panel-drift { from { translate: -1.5% 0; } to { translate: 1.5% -1%; } }
+
+/* Each panel's light: warm morning, neutral day, deep night — all darken at the bottom for the text */
+.day-panel::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(14, 27, 18, 0) 38%, rgba(14, 27, 18, .55) 62%, rgba(14, 27, 18, .9) 100%);
+}
+.day-panel--morning::after { background: linear-gradient(180deg, rgba(217, 191, 134, .12) 0%, rgba(14, 27, 18, 0) 38%, rgba(30, 36, 18, .6) 62%, rgba(30, 36, 18, .92) 100%); }
+.day-panel--night::after { background: linear-gradient(180deg, rgba(14, 27, 18, .2) 0%, rgba(14, 27, 18, .35) 40%, rgba(14, 27, 18, .92) 100%); }
+
+.day-panel__text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 30px); }
+.day-panel__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: clamp(22px, 2vw, 30px); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; }
+.day-panel__opt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(246, 241, 231, .55); }
+.day-panel__body { margin-top: 8px; font-size: 15px; line-height: 1.55; color: #e3e8df; max-width: 400px; }
+.day-panel__safety { margin-top: 14px; font-size: 13px; padding: 10px 12px; background: rgba(14, 27, 18, .55); }
+
+/* Tablets and phones: a swipeable row, one and a bit panels in view */
+@media (max-width: 991.98px) {
+  .day-panels {
+    height: auto; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .day-panels::-webkit-scrollbar { display: none; }
+  .day-panel, .day-panel.is-active { flex: 0 0 min(78%, 420px); height: 500px; scroll-snap-align: start; }
+}
+
+/* ---- Entrance: each photo opens like window blinds, slat by slat ---- */
+@property --slat { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+.day-panel__img {
+  --slat: 0%;
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 var(--slat), transparent var(--slat) 12.5%);
+  mask: repeating-linear-gradient(90deg, #000 0 var(--slat), transparent var(--slat) 12.5%);
+  transition: --slat 1.3s var(--ease-out);
+  transition-delay: calc(250ms + var(--k) * 220ms);
+}
+.day-panel.is-in .day-panel__img { --slat: 12.6%; }
+
+/* ---- Ongoing: a band of sunlight crosses each panel in turn (one 12s loop across all three) ---- */
+.day-panel__light {
+  position: absolute; inset: -20% -60%; z-index: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 228, 170, .22) 45%, rgba(255, 242, 212, .42) 50%, rgba(255, 228, 170, .22) 55%, transparent 62%);
+  translate: -32% 0; opacity: 0;
+  animation: day-light 12s ease-in-out infinite;
+  animation-delay: calc(1.6s + var(--k) * 4s);
+}
+.day-panel--night .day-panel__light {
+  background: linear-gradient(105deg, transparent 40%, rgba(200, 214, 236, .2) 50%, transparent 60%);
+}
+@keyframes day-light {
+  0% { translate: -32% 0; opacity: 0; }
+  4% { opacity: 1; }
+  30% { opacity: 1; }
+  33.3%, 100% { translate: 32% 0; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-panel, .day-panel__img img { transition: none; animation: none; }
+  .day-panel__img { --slat: 12.6%; transition: none; }
+  .day-panel__light { display: none; }
+}
