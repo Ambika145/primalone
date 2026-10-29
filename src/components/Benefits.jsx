@@ -53,7 +53,6 @@ export default function Benefits() {
           preload="metadata"
           aria-label={benefits.video.label}
         />
-        <div className="benefits__media-shade" aria-hidden="true" />
       </div>
 
       <div className="benefits__content">
@@ -93,14 +92,13 @@ export default function Benefits() {
             hidden={i !== active}
             className="benefits__panel"
           >
-            <ol className="benefits__list">
+            <ul className="benefits__list">
               {t.items.map((item, j) => (
                 <li key={item} style={{ '--j': j }}>
-                  <span className="benefits__num" aria-hidden="true">{String(j + 1).padStart(2, '0')}</span>
                   <span className="benefits__text">{item}</span>
                 </li>
               ))}
-            </ol>
+            </ul>
             {t.safety && <SafetyNote className="benefits__safety" />}
           </div>
         ))}

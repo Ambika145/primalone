@@ -5,6 +5,10 @@ node_modules/
 dist/
 .vercel/
 
+# Huge raw source media (keep processed files in public/ only)
+*.mov
+assets/Color Matte_1.mov
+
 # Local / OS
 .env
 .env.*

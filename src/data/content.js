@@ -167,7 +167,8 @@ export const how = {
 export const benefits = {
   titleLines: ['What each scoop', 'is built to do.'],
   video: {
-    src: '/video/whats-inside.mp4',
+    // Golden figure on a flat sand ground (from assets/Color Matte_2.mp4, #ebe4d4).
+    src: '/video/scoop-figure-2.mp4',
     label: 'Inside a PrimalOne scoop',
   },
   tabs: [

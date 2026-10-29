@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { why } from '../data/content.js';
 import { useInView, useReducedMotion } from '../hooks/motion.js';
 import Icon from './ui/Icon.jsx';
-import { Img, Reveal } from './ui/primitives.jsx';
+import { Img, Reveal, SplitLines } from './ui/primitives.jsx';
 import './WhySequence.css';
 
 // "The day, two ways": one day drawn twice, split by a draggable handle.
@@ -11,6 +11,7 @@ const DAY_START = 6, DAY_LEN = 18;
 const at = (h) => `${((h - DAY_START) / DAY_LEN) * 100}%`;
 const ticks = [6, 9, 12, 15, 18, 21, 24];
 const tickLabel = (h) => (h === 12 ? '12 pm' : h === 24 ? '12 am' : h < 12 ? `${h} am` : `${h - 12} pm`);
+const AM = 8.5, PM = 21.5;
 
 // Stacked: unlabelled capsules spread over the whole day and piled on top of each other.
 // [hour, vertical %, rotation°, tone]
@@ -65,7 +66,7 @@ export default function WhySequence() {
     <section id="why" className="section why" aria-labelledby="why-title">
       <div className="shell">
         <div className="why__head">
-          <WhyTitle lines={why.titleLines} />
+          <SplitLines id="why-title" className="h-lg why__title" lines={why.titleLines} accentLast />
           <Reveal as="p" className="lead-text why__body">
             {why.bodyLines.map((line, i) => (
               <span key={i} className="why__body-line">{line}</span>
@@ -103,18 +104,21 @@ export default function WhySequence() {
                 <strong>{why.sequenced.label}</strong>
               </div>
               <div className="day2__track">
-                <span className="day2__line" style={{ left: at(8.5), width: `calc(${at(21.5)} - ${at(8.5)})` }} aria-hidden="true" />
-                <div className="dose dose--am" style={{ left: at(8.5) }}>
+                <span className="day2__line" style={{ left: at(AM), width: `calc(${at(PM)} - ${at(AM)})` }} aria-hidden="true" />
+                {/* light travelling the day from the morning dose to the evening one */}
+                <span className="day2__bead" style={{ '--from': at(AM), '--to': at(PM) }} aria-hidden="true" />
+                <div className="dose dose--am" style={{ left: at(AM) }}>
                   <span className="dose__jar frame"><Img name="origin-jar" alt="" sizes="64px" /></span>
                   <span className="dose__text">{why.sequenced.morning}</span>
                 </div>
-                <div className="dose dose--pm" style={{ left: at(21.5) }}>
+                <div className="dose dose--pm" style={{ left: at(PM) }}>
                   <span className="dose__jar frame"><Img name="restore-jar" alt="" sizes="64px" /></span>
                   <span className="dose__text">{why.sequenced.evening}</span>
                 </div>
               </div>
               <Axis light />
             </div>
+
 
             {/* Handle */}
             <div className="day2__handle" role="slider" tabIndex={0}
@@ -141,55 +145,3 @@ function Axis({ light = false }) {
   );
 }
 
-// The heading acts out its own words. Line one arrives as a pile — every word on top of the
-// first, jostling — then pushes apart. Line two follows calmly, one word at a time, in order,
-// and a gold line draws under its last word.
-const PILE = [[-7, -6, 10], [5, 7, -12], [-3, 2, 8], [6, -4, -6]];   // [rotate°, dy px, jostle px]
-
-function WhyTitle({ lines }) {
-  const [ref, inView] = useInView({ threshold: 0.4 });
-  const pileRef = useRef(null);
-  const [first, second] = lines.map((l) => l.split(' '));
-
-  // How far each word of line one sits from the first word: that's where it starts, piled up
-  useLayoutEffect(() => {
-    const measure = () => {
-      const words = pileRef.current?.querySelectorAll('.why-t__pile');
-      if (!words?.length) return;
-      const x0 = words[0].offsetLeft, y0 = words[0].offsetTop;
-      words.forEach((w) => {
-        w.style.setProperty('--dx', `${x0 - w.offsetLeft}px`);
-        w.style.setProperty('--dy0', `${y0 - w.offsetTop}px`);
-      });
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, []);
-
-  return (
-    <h2 id="why-title" ref={ref} className={`h-lg why__title why-t ${inView ? 'is-in' : ''}`}>
-      <span className="why-t__line" ref={pileRef}>
-        {first.map((w, i) => {
-          const [r, dy, jx] = PILE[i % PILE.length];
-          return (
-            <Fragment key={i}>
-              <span className="why-t__pile" style={{ '--r': `${r}deg`, '--dy': `${dy}px`, '--jx': `${jx}px`, '--k': i }}>{w}</span>
-              {i < first.length - 1 && ' '}
-            </Fragment>
-          );
-        })}
-      </span>{' '}
-      <span className="why-t__line is-accent">
-        {second.map((w, i) => (
-          <Fragment key={i}>
-            <span className="why-t__mask">
-              <span className={`why-t__seq ${i === second.length - 1 ? 'why-t__last' : ''}`} style={{ '--n': i }}>{w}</span>
-            </span>
-            {i < second.length - 1 && ' '}
-          </Fragment>
-        ))}
-      </span>
-    </h2>
-  );
-}

@@ -1,0 +1,34 @@
+/* Full-width film band */
+.film { background: var(--paper); overflow: clip; }
+
+.film__frame {
+  position: relative;
+  height: clamp(420px, 82vh, 860px);
+  overflow: hidden;
+  background: var(--forest);
+  /* opens from an inset, rounded frame to the full width */
+  clip-path: inset(7% 5% round var(--radius-lg));
+  transition: clip-path 1.4s var(--ease-out);
+}
+.film.is-in .film__frame { clip-path: inset(0 0 round 0); }
+
+.film__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  scale: 1.12;
+  transition: scale 2s var(--ease-out);
+}
+.film.is-in .film__video { scale: 1; }
+
+@media (max-width: 767.98px) {
+  .film__frame { height: 72vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film__frame { clip-path: none; transition: none; }
+  .film__video { scale: 1; transition: none; }
+}

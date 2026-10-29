@@ -16,6 +16,9 @@
 }
 .day2.is-in .day2__stage { opacity: 1; transform: none; }
 .day2__layer { position: absolute; inset: 0; padding: clamp(22px, 2.6vw, 36px); }
+/* each layer is its own stack, so the stacked label can't show through the sequenced layer */
+.day2__layer--stacked { z-index: 0; }
+.day2__layer--seq { z-index: 1; }
 .day2__layer--stacked { background: var(--sand); }
 .day2__layer--seq {
   background:
@@ -76,13 +79,13 @@
   box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(217, 191, 134, .7), 0 18px 30px -12px rgba(0, 0, 0, .6);
 }
 .dose--pm .dose__jar { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(246, 241, 231, .5); outline: 1px dashed rgba(246, 241, 231, .5); outline-offset: 9px; }
-.dose__text { font-size: 14px; font-weight: 600; letter-spacing: .02em; }
+.dose__text { font-size: clamp(15px, 1.15vw, 17px); font-weight: 600; letter-spacing: .02em; }
 
 /* Hour axis */
-.day2__axis { position: absolute; left: clamp(22px, 2.6vw, 36px); right: clamp(22px, 2.6vw, 36px); bottom: 22px; height: 22px; border-top: 1px solid var(--line); }
+.day2__axis { position: absolute; left: clamp(22px, 2.6vw, 36px); right: clamp(22px, 2.6vw, 36px); bottom: 28px; height: 22px; border-top: 1px solid var(--line); }
 .day2__axis--light { border-color: var(--line-dark); }
 .day2__axis span {
-  position: absolute; top: 8px; translate: -50% 0; font-size: 11px; white-space: nowrap; letter-spacing: .04em; color: var(--muted);
+  position: absolute; top: 8px; translate: -50% 0; font-size: clamp(12px, .95vw, 14px); font-weight: 500; white-space: nowrap; letter-spacing: .04em; color: var(--muted);
 }
 .day2__axis span:first-child { translate: 0 0; }
 .day2__axis span:last-child { translate: -100% 0; }
@@ -108,32 +111,39 @@
 .day2__stage:hover .day2__knob, .is-dragging .day2__knob { scale: 1.08; }
 .day2__handle:focus-visible .day2__knob { box-shadow: 0 0 0 3px var(--green), 0 10px 30px -8px rgba(14, 27, 18, .45); }
 
-/* ---- Heading: line one piles up and pushes apart, line two arrives in order ---- */
-.why-t__line { display: block; }
-.why-t__pile { display: inline-block; opacity: 0; will-change: transform; }
-.why-t.is-in .why-t__pile { animation: why-unpile 1.7s cubic-bezier(.3, .7, .2, 1) both; animation-delay: calc(var(--k) * 40ms); }
-@keyframes why-unpile {
-  0%   { opacity: 0; transform: translate(var(--dx), calc(var(--dy0) + var(--dy) + 40px)) rotate(var(--r)); }
-  22%  { opacity: 1; transform: translate(var(--dx), calc(var(--dy0) + var(--dy))) rotate(var(--r)); }
-  34%  { transform: translate(calc(var(--dx) + var(--jx)), calc(var(--dy0) + var(--dy) * -1)) rotate(calc(var(--r) * -1)); }
-  46%  { transform: translate(calc(var(--dx) - var(--jx) * .6), calc(var(--dy0) + var(--dy))) rotate(var(--r)); }
-  56%  { transform: translate(var(--dx), calc(var(--dy0) + var(--dy) * .5)) rotate(calc(var(--r) * .5)); }
-  84%  { transform: translate(calc(var(--jx) * .25), 0) rotate(calc(var(--r) * -.15)); }
-  100% { opacity: 1; transform: none; }
+/* ---- Live layer ---- */
+/* Stacked: the capsules never settle; they keep jostling for room */
+.day2.is-in .capsule { animation: cap-jostle 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * -.37s); }
+@keyframes cap-jostle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(3px, -4px) rotate(7deg); }
+  50% { transform: translate(-2px, 2px) rotate(-5deg); }
+  75% { transform: translate(2px, 3px) rotate(4deg); }
 }
 
-.why-t__mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .14em; margin-bottom: -.14em; }
-.why-t__seq { display: inline-block; transform: translateY(110%); }
-.why-t.is-in .why-t__seq { animation: why-seq .8s var(--ease-out) both; animation-delay: calc(1.75s + var(--n) * 260ms); }
-@keyframes why-seq { to { transform: none; } }
-
-.why-t__last { position: relative; }
-.why-t__last::after {
-  content: ''; position: absolute; left: 0; right: .2em; bottom: .02em; height: 3px; border-radius: 3px;
-  background: var(--gold); transform: scaleX(0); transform-origin: left;
+/* Sequenced: a point of light runs the day from Origin to Restore; each jar answers as it arrives */
+.day2__bead {
+  position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  background: var(--gold-soft); box-shadow: 0 0 0 4px rgba(217, 191, 134, .2), 0 0 18px 4px rgba(217, 191, 134, .55);
+  left: var(--from); opacity: 0;
 }
-.why-t.is-in .why-t__last::after { animation: why-line .9s var(--ease-out) both; animation-delay: calc(1.75s + 3 * 260ms + .3s); }
-@keyframes why-line { to { transform: scaleX(1); } }
+.day2.is-in .day2__bead { animation: day-bead 6s cubic-bezier(.45, 0, .55, 1) 2.2s infinite; }
+@keyframes day-bead {
+  0% { left: var(--from); opacity: 0; }
+  8% { opacity: 1; }
+  80% { left: var(--to); opacity: 1; }
+  88%, 100% { left: var(--to); opacity: 0; }
+}
+.day2.is-in .dose--am .dose__jar { animation: jar-pulse-am 6s ease-out 2.2s infinite; }
+.day2.is-in .dose--pm .dose__jar { animation: jar-pulse-pm 6s ease-out 2.2s infinite; }
+@keyframes jar-pulse-am {
+  0% { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(217, 191, 134, .7), 0 0 0 6px rgba(217, 191, 134, .6), 0 18px 30px -12px rgba(0, 0, 0, .6); }
+  14%, 100% { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(217, 191, 134, .7), 0 0 0 26px rgba(217, 191, 134, 0), 0 18px 30px -12px rgba(0, 0, 0, .6); }
+}
+@keyframes jar-pulse-pm {
+  0%, 78% { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(246, 241, 231, .5), 0 0 0 6px rgba(246, 241, 231, .55); }
+  94%, 100% { box-shadow: 0 0 0 5px var(--forest), 0 0 0 6px rgba(246, 241, 231, .5), 0 0 0 26px rgba(246, 241, 231, 0); }
+}
 
 @media (max-width: 767.98px) {
   .day2__stage { height: 420px; }
@@ -142,8 +152,9 @@
   .day2__axis span:nth-child(even) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .why-t__pile, .why-t__seq, .why-t__last::after { animation: none !important; opacity: 1; transform: none; }
   .day2__stage, .day2__layer--seq, .day2__handle, .capsule, .dose, .day2__line { transition: none; }
+  .capsule, .dose__jar { animation: none !important; }
+  .day2__bead { display: none; }
   .day2__stage { opacity: 1; transform: none; }
   .capsule { opacity: 1; translate: -50% -50%; }
   .dose, .day2__line { opacity: 1; transform: none; }
