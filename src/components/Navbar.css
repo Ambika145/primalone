@@ -26,7 +26,72 @@
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .logo-on-light { opacity: 0; }
 .is-menu .site-nav__logo .logo-on-dark,
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .logo-on-dark { opacity: 1; }
-.site-nav__links a, .site-nav__cart, .site-nav__menu-btn { transition: color .8s var(--ease), opacity .25s, background .25s; }
+.site-nav__links a, /* "Sign in | Cart" pill (after seed.com) */
+.acct { position: relative; }
+.acct__pill {
+  display: flex; align-items: center; padding: 4px; border-radius: 999px;
+  background: rgba(17, 26, 20, .07); transition: background .3s;
+}
+.acct__signin, .acct__cart {
+  position: relative; display: inline-flex; align-items: center; gap: 7px;
+  min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; cursor: pointer;
+  font-size: 14.5px; font-weight: 500; background: transparent; color: var(--ink);
+  transition: background .25s, color .25s;
+}
+.acct__signin { opacity: .8; }
+.acct__signin:hover, .acct.is-open .acct__signin { opacity: 1; background: rgba(17, 26, 20, .06); }
+.acct__cart { background: var(--forest); color: var(--cream); }
+.acct__cart:hover { background: var(--ink); }
+.acct__cart .site-nav__count { position: static; margin-left: 2px; background: var(--gold-soft); color: var(--forest); }
+.acct__cart.is-bump .site-nav__count { animation: cart-bump .5s var(--ease-out); }
+.acct__signin .acct__icon { display: none; }
+.acct__signin:focus-visible, .acct__cart:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+/* over a dark hero the pill turns light-on-dark */
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .acct__pill,
+.is-menu .acct__pill { background: rgba(246, 241, 231, .12); }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .acct__signin,
+.is-menu .acct__signin { color: var(--cream); }
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .acct__cart,
+.is-menu .acct__cart { background: var(--cream); color: var(--forest); }
+html[data-hero-tone] .site-nav:not(.is-scrolled):not(.is-menu) .acct__pill { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+html[data-hero-tone='day'] .site-nav:not(.is-scrolled):not(.is-menu) .acct__pill { background: rgba(251, 248, 242, .78); }
+
+.acct__pop {
+  position: absolute; top: calc(100% + 12px); right: 0; z-index: 5; width: min(360px, calc(100vw - 32px));
+  padding: 24px; border-radius: 26px; color: var(--cream);
+  background: rgba(22, 38, 28, .9); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  box-shadow: 0 30px 60px -24px rgba(14, 27, 18, .55);
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity .25s, transform .3s var(--ease-out), visibility .25s;
+}
+.acct.is-open .acct__pop { opacity: 1; visibility: visible; transform: none; }
+.acct__title { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.acct__sub { margin-top: 4px; font-size: 14px; color: var(--muted-dark); }
+.acct__pop input {
+  width: 100%; margin-top: 18px; padding: 14px 16px; border-radius: 14px;
+  border: 1px solid rgba(246, 241, 231, .4); background: transparent; color: var(--cream); font-size: 15px;
+}
+.acct__pop input::placeholder { color: rgba(246, 241, 231, .5); }
+.acct__pop input:focus { outline: none; border-color: var(--gold-soft); }
+.acct__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+.acct__alt { font-size: 13px; color: var(--muted-dark); text-decoration: underline; text-underline-offset: 3px; }
+.acct__alt:hover { color: var(--cream); }
+.acct__go {
+  border: 0; border-radius: 999px; padding: 11px 22px; font-size: 15px; font-weight: 500;
+  background: var(--cream); color: var(--forest); transition: background .25s;
+}
+.acct__go:hover { background: #fff; }
+
+/* Phones: the pill keeps its shape but shows icons */
+@media (max-width: 575.98px) {
+  .acct__signin, .acct__cart { padding: 0 12px; min-height: 38px; }
+  .acct__label { display: none; }
+  .acct__signin .acct__icon { display: block; }
+  /* the pill isn't at the screen edge here, so the sign-in panel spans the screen instead */
+  .acct__pop { position: fixed; left: 16px; right: 16px; top: 112px; width: auto; }
+}
+
+.site-nav__cart, .site-nav__menu-btn { transition: color .8s var(--ease), opacity .25s, background .25s; }
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__links a,
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cart,
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__menu-btn { color: var(--cream); }
@@ -42,7 +107,7 @@ html[data-hero-tone='night'] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled):not(.is-menu) .site-nav__menu-btn { background: rgba(14, 27, 18, .55); }
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill-bg: var(--cream); --pill-fg: var(--forest); --pill-hover: #fff; }
 
-.site-nav__links { gap: clamp(20px, 2.4vw, 38px); font-size: 15px; font-weight: 500; }
+.site-nav__links { gap: clamp(20px, 2.4vw, 38px); font-size: 15px; font-weight: 500; align-items: center; }
 .site-nav__links a { position: relative; padding: 6px 0; color: var(--ink); opacity: .78; transition: opacity .25s; }
 .site-nav__links a::after {
   content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--green);
@@ -50,6 +115,55 @@ html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill
 }
 .site-nav__links a:hover, .site-nav__links a.is-active { opacity: 1; }
 .site-nav__links a:hover::after, .site-nav__links a.is-active::after { transform: scaleX(1); transform-origin: left; }
+
+.site-nav__drop { position: relative; }
+/* Shop menu: a frosted forest panel with jar thumbnails (after seed.com) */
+.shop-menu {
+  position: absolute; top: calc(100% + 16px); left: 50%; translate: -50% 0; z-index: 5;
+  width: 340px; padding: 14px;
+  background: rgba(22, 38, 28, .86); color: var(--cream);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2);
+  border-radius: 26px; box-shadow: 0 30px 60px -24px rgba(14, 27, 18, .55);
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px);
+  transition: opacity .25s, transform .3s var(--ease-out), visibility .25s;
+}
+/* a bridge over the gap so the pointer can travel from "Shop" into the panel */
+.shop-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
+.site-nav__drop.is-open .shop-menu,
+.site-nav__drop:focus-within .shop-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+.shop-menu ul { display: grid; gap: 6px; }
+.site-nav__links .shop-menu a { opacity: 1; color: var(--cream); padding: 0; }
+.site-nav__links .shop-menu a::after { display: none; }
+.shop-menu__row {
+  display: flex; align-items: center; gap: 16px; padding: 10px !important; border-radius: 18px;
+  transition: background .25s;
+}
+.shop-menu__row:hover, .shop-menu__row:focus-visible { background: rgba(246, 241, 231, .08); }
+.shop-menu__thumb {
+  flex: none; width: 64px; height: 64px; border-radius: 16px; overflow: hidden;
+  display: flex; background: var(--cream); transition: scale .35s var(--ease-out);
+}
+.shop-menu__row:hover .shop-menu__thumb { scale: 1.05; }
+.shop-menu__thumb img { width: 100%; height: 100%; object-fit: cover; scale: 1.5; mix-blend-mode: multiply; }
+.shop-menu__thumb.is-duo img { width: 50%; scale: 2.2; }
+.shop-menu__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.shop-menu__tag { font-size: 12.5px; color: var(--muted-dark); }
+.shop-menu__badge {
+  align-self: flex-start; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+  background: var(--sage, #cfe3b8); color: var(--forest);
+}
+.shop-menu__name { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.shop-menu__all {
+  display: flex !important; align-items: center; justify-content: flex-end; gap: 8px;
+  margin-top: 10px; padding: 12px 10px 4px !important; border-top: 1px solid rgba(246, 241, 231, .12);
+  font-size: 14.5px; font-weight: 500;
+}
+.shop-menu__all span, .shop-menu__all { text-decoration: none; }
+.shop-menu__all:hover { color: #fff !important; }
+
+.site-nav__utility { gap: 18px; margin-right: 8px; font-size: 13.5px; font-weight: 500; }
+.site-nav__utility a { opacity: .7; }
+.site-nav__utility a:hover { opacity: 1; color: var(--green); }
 
 .site-nav__actions { display: flex; align-items: center; gap: 8px; }
 .site-nav__cart, .site-nav__menu-btn {
@@ -100,3 +214,6 @@ html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill
   .mobile-menu, .mobile-menu.is-open { transition: none; }
   .mobile-menu li, .mobile-menu__foot { transition: none; }
 }
+
+/* Utility links (FAQ · Contact) stay readable over a dark hero */
+html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__utility a { color: var(--cream); }

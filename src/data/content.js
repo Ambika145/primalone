@@ -71,10 +71,8 @@ export const products = {
       'Origin is a daily nutrition floor: the essentials most people miss when they eat breakfast. Greens, omega-3s, vitamin D3 + K2, minerals, CoQ10, and a probiotic.',
       { text: 'One scoop with or after breakfast. Not a protein shake. ', strong: 'The daily if you eat.' },
     ],
-    // Physician note in the Origin product block only (the brief lists it for Restore; Origin caution is still to confirm).
-    blockSafety: true,
-    // drift: the photo moves slowly in a small circle inside its fixed frame
-    image: { name: 'origin-jar', video: '/video/origin.mp4', drift: true, alt: 'The green PrimalOne Origin jar with a walnut lid beside a scoop of powder' },
+    // scrub: the jar's 360° turn (every frame a keyframe) that the homepage scrubs with scroll
+    image: { name: 'origin-jar', video: '/video/origin.mp4', scrub: '/video/origin-scrub.mp4', alt: 'The green PrimalOne Origin jar with a walnut lid beside a scoop of powder' },
     containsTitle: 'Origin contains',
     contains: ['Omega-3s (EPA + DHA)', 'Vitamin D3 & K2', 'A modest mineral floor', 'CoQ10', 'Greens', 'Multi-strain probiotic', 'Prebiotic fibre (PHGG)'],
     meta: ['One 20 g scoop', 'in water or a smoothie'],
@@ -82,6 +80,7 @@ export const products = {
     // Shop
     shopTitle: 'Origin',
     shopDescriptor: 'Forever daily essentials',
+    shopTag: 'Morning · Daily',
     shopCopy: 'The morning scoop when breakfast is eaten.',
     ctaPrefix: 'Buy Origin',
     shopImage: { name: 'origin-stir', alt: 'Origin jar beside a glass being stirred in morning light' },
@@ -99,14 +98,14 @@ export const products = {
       'An evening formula to support relaxation and recovery at the end of the day. Take it if you want the night covered. Skip it if you do not.',
       { text: '30 to 60 minutes before bed, with or without food. ', strong: 'Many people use Origin alone.' },
     ],
-    safety: true,
-    image: { name: 'restore-jar', spin: true, alt: 'PrimalOne Restore jar with walnut scoop in evening light' },
+    image: { name: 'restore-jar', scrub: '/video/restore-scrub.mp4', alt: 'PrimalOne Restore jar with walnut scoop in evening light' },
     containsTitle: 'Restore contains',
     contains: ['Glycine (3 g)', 'NAC (600 mg)', 'Magnesium', 'KSM-66® ashwagandha', 'Myo-inositol'],
     meta: ['Evening only', 'never taken with Origin'],
     labelHref: routes.restoreLabel,
     shopTitle: 'Restore',
     shopDescriptor: 'Evening recovery',
+    shopTag: 'Evening · Optional',
     shopCopy: 'The optional night. Glycine, NAC, magnesium, and ashwagandha.',
     ctaPrefix: 'Add to evening routine',
     shopImage: { name: 'restore-evening', alt: 'PrimalOne Restore evening ritual with jar, sachet and glass' },
@@ -116,6 +115,13 @@ export const products = {
     ],
   },
 };
+
+// Bundle + save: buying Origin and Restore together takes this much off the order.
+// The rate is a placeholder until the client confirms it (shown with a "To confirm" tag in the cart).
+export const bundle = { pct: 10, label: 'Bundle + save 10%', tbc: true };
+
+// Promo codes accepted in the cart, as CODE: percent off. None have been supplied yet.
+export const promoCodes = {};
 
 export const safetyNote = 'Consult a physician if pregnant, nursing, or on medication.';
 
@@ -149,14 +155,14 @@ export const how = {
       time: 'Through the day',
       title: 'Food does the rest.',
       body: 'No mid-day stack. No cabinet. Just the meals you already eat.',
-      image: { name: 'origin-sachet', alt: 'A hand holding an Origin sachet over a canvas bag on a sunlit table' },
+      image: { name: 'food-bowl', alt: 'A bowl of quinoa, chickpeas, broccoli, courgette and hummus with a lemon wedge' },
       tone: 'day',
     },
     {
       time: 'Evening, 30 to 60 min before bed',
       title: 'Restore.',
       optional: true,
-      body: 'With or without food, if you want the night covered. Skip it if you do not.',
+      body: 'With or without food, if you want the night covered.',
       image: { name: 'restore-dusk', alt: 'A hand holding a glass of Restore beside the cream Restore jar in warm lamplight' },
       tone: 'night',
       safety: true,
@@ -243,21 +249,25 @@ export const signal = {
       who: 'Beta participant',
       meta: '34 · Bengaluru',
       rating: 5,
-      image: { name: 'unboxing', alt: 'PrimalOne premium ritual unboxing' },
+      // video: the member's testimonial clip (to be supplied); poster: their portrait
+      video: null,
+      poster: { name: 'beta-portrait-1', alt: 'Beta participant from Bengaluru' },
     },
     {
       text: 'I stopped needing my afternoon coffee. That never happened with anything else I\'ve tried.',
       who: 'Beta participant',
       meta: '29 · Delhi',
       rating: 5,
-      image: { name: 'origin-stir', alt: 'Origin being stirred into a morning glass' },
+      video: null,
+      poster: { name: 'beta-portrait-2', alt: 'Beta participant from Delhi' },
     },
     {
       text: 'As someone who was skeptical of supplements, the transparent labelling and no-hype approach is what won me over. The results were secondary. The integrity was the sale.',
       who: 'Beta participant',
       meta: '41 · Mumbai',
       rating: 5,
-      image: { name: 'origin-scoop', alt: 'Origin powder in a walnut scoop' },
+      video: null,
+      poster: { name: 'beta-portrait-3', alt: 'Beta participant from Mumbai' },
     },
   ],
   disclaimer: '*Self-reported by approximately 120 participants in a 30-day internal beta, June 2025. Not a clinical trial. Individual experiences vary and are not typical results.',
@@ -279,17 +289,17 @@ export const faq = {
     { q: 'Is Origin vegetarian?', a: 'Depends on the omega-3 source (fish oil or algal oil). Check the FSSAI veg/non-veg symbol on the pack.' },
     { q: 'Is Origin a 30-day program?', a: 'No. Origin is forever daily essentials. Take it every morning you eat breakfast.' },
     { q: 'Is Origin a protein shake or meal replacement?', a: 'No. Origin has no protein. It is a daily essentials scoop to take with or after breakfast.' },
-    { q: 'Do I have to take Restore with Origin?', a: 'No. Restore is optional. Many people use Origin alone.' },
+    { q: 'Do I have to take Restore with Origin?', a: 'No. Restore is optional.' },
     { q: 'Can I take Origin and Restore at the same time?', a: 'No. Origin is morning. Restore is evening.' },
     { q: 'What if I skip breakfast?', a: 'Origin is designed for mornings when breakfast is eaten. If the scoop is your meal, this is not the right product for that day.' },
     { q: 'What does Origin taste like, and how do I mix it?', a: 'Mix one scoop (20 g) in water or a smoothie with or after breakfast.' },
     { q: 'How long does a pack last?', a: 'A 30-day pack covers 30 mornings and a 15-day pack covers 15, at one scoop a day.' },
-    { q: "Can I take Restore if I'm pregnant, nursing, or on medication?", safety: true },
+    { q: "Can I take Restore if I'm pregnant, nursing, or on medication?", a: 'Consult a physician before taking Restore if you are pregnant, nursing, or on medication.' },
     { q: 'How much magnesium is in Restore?', a: 'Restore is formulated so that the evening magnesium dose stays within common supplemental guidance when Origin is the only other product used.' },
     { q: 'Can I take Restore with other magnesium supplements?', a: 'Do not combine Restore with other high-magnesium supplements on the same day.' },
     { q: 'Are there clinical studies on these exact formulas?', a: 'Individual ingredients have published research. These statements have not been evaluated by regulatory authorities. This product is not intended to diagnose, treat, cure, or prevent any disease.' },
     { q: 'Do I need to subscribe?', a: 'No. Origin and Restore are sold as one-time 30-day or 15-day packs. Reorder whenever you need more.' },
-    { q: 'How fast is delivery, and what is the returns policy?', a: 'Delivery timelines, cash-on-delivery availability, and returns details are listed at checkout and on our shipping page.' },
+    { q: 'How fast is delivery, and what is the returns policy?', a: 'Delivery timelines and returns details are listed at checkout and on our shipping page. We do not offer cash on delivery.' },
   ],
 };
 
@@ -302,18 +312,26 @@ export const finalCta = {
 
 export const footer = {
   tagline: 'Nutrition should evolve as you do.',
+  trust: 'Third-party tested · No proprietary blends · Sequence, don’t stack',
   columns: [
-    { title: 'Shop', links: [{ label: 'Origin', href: '#origin' }, { label: 'Restore', href: '#restore' }, { label: 'How it works', href: '#how' }] },
-    { title: 'Help', links: [{ label: 'FAQ', href: '#faq' }, { label: 'Shipping', href: routes.shipping }, { label: 'Returns', href: routes.returns }, { label: 'Contact', href: routes.contact }] },
-    { title: 'Learn', links: [{ label: 'Journal', href: routes.journal }] },
-    { title: 'Legal', links: [{ label: 'Privacy', href: routes.privacy }, { label: 'Terms', href: routes.terms }] },
+    { title: 'Shop', links: [{ label: 'Origin', href: '/products/origin' }, { label: 'Restore', href: '/products/restore' }] },
+    { title: 'Learn', links: [{ label: 'Sequence', href: '/sequence' }, { label: 'Science', href: '/science' }, { label: 'Journal', href: '/journal' }] },
+    { title: 'Company', links: [{ label: 'About', href: '/about' }, { label: 'Contact', href: '/contact' }, { label: 'Shipping & Returns', href: '/shipping' }, { label: 'Privacy', href: '/privacy' }, { label: 'Terms', href: '/terms' }] },
   ],
-  manufacturer: 'Manufactured by Zeon Lifescience',
+  // Client brief: never name the contract manufacturer anywhere on the site.
+  manufacturer: 'Manufactured in a facility certified to FSSAI, WHO-GMP, FSSC 22000, and NSF standards aligned with U.S. cGMP (21 CFR Part 111). The manufacturing site is U.S. FDA registered. Products are tested in an NABL-accredited laboratory.',
   fssai: 'FSSAI Lic. No.',
-  payments: 'Payments: UPI · Cards · Net banking · COD',
+  // No cash on delivery.
+  payments: 'Payments: UPI · Cards · Net banking',
   disclaimer: '*These statements have not been evaluated by the Food and Drug Administration or equivalent authority. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not be used as a substitute for a varied diet.',
   legal: '© 2026 Primalone Nutrition Pvt Ltd',
-  taxes: 'Prices in INR, inclusive of taxes',
+  // Social profiles: handles/URLs still to be supplied by the client ('#' until then).
+  socialLine: 'Follow the sequence.',
+  socials: [
+    { id: 'instagram', label: 'Instagram', href: '#' },
+    { id: 'youtube', label: 'YouTube', href: '#' },
+    { id: 'facebook', label: 'Facebook', href: '#' },
+  ],
 };
 
 export const formatINR = (n) => '₹' + n.toLocaleString('en-IN');

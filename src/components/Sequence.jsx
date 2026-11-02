@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { products, sequence } from '../data/content.js';
-import { useInView, useParallax, useReducedMotion } from '../hooks/motion.js';
-import { Img, Reveal, SafetyNote, Tbc, TextLink } from './ui/primitives.jsx';
+import { useMediaQuery, useReducedMotion } from '../hooks/motion.js';
+import { Reveal, Tbc } from './ui/primitives.jsx';
 import './Sequence.css';
 
 // Masked words / letters that rise one after another when their Reveal parent comes into view.
@@ -19,123 +19,121 @@ function Letters({ text }) {
   ));
 }
 
-// The jar turning on a loop; plays only while on screen. Reduced motion keeps the still photo.
-function ProductVideo({ image }) {
-  const reduced = useReducedMotion();
-  const [ref, inView] = useInView({ threshold: 0.1, rootMargin: '0px', once: false });
-  const videoRef = useRef(null);
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (inView) v.play().catch(() => {});
-    else v.pause();
-  }, [inView]);
-  if (reduced) return <Img name={image.name} alt={image.alt} sizes="(min-width: 992px) 30vw, (min-width: 768px) 55vw, 100vw" />;
-  return (
-    <video
-      ref={(el) => { videoRef.current = el; ref.current = el; }}
-      className={`pblock__video ${image.videoAlpha ? 'pblock__video--alpha' : ''}`}
-      src={image.video}
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-label={image.alt}
-    />
-  );
-}
+const clamp01 = (n) => Math.min(1, Math.max(0, n));
 
-function ProductBlock({ product, tone }) {
+// One product panel. The giant name glides sideways and the jar turns, both driven by scroll
+// (the parent writes --p on the panel and sets the video's frame; nothing here re-renders).
+function ProductPanel({ product, tone, videoRef }) {
   const p = products[product];
-  const visualRef = useParallax(0.06);
-  const reduced = useReducedMotion();
-  const [spinning, setSpinning] = useState(false);
   const dark = tone === 'night';
-
-  const startSpin = () => {
-    if (reduced || !p.image.spin || spinning) return;
-    setSpinning(true);
-  };
-
+  const ribbon = Array.from({ length: 6 }, () => p.name).join('  ');
   return (
     <article id={p.id} className={`pblock pblock--${tone} ${dark ? 'on-night' : ''}`} aria-labelledby={`${p.id}-title`}>
-      <span className="pblock__ghost" aria-hidden="true">{p.name}</span>
-      <div className="shell">
-        <div className="row gy-5 gx-lg-5 align-items-start">
-          <div className="col-12 col-lg-4">
-            <Reveal className="pblock__text">
-              <h3 id={`${p.id}-title`} className="pblock__heading">
-                <span className="pblock__name"><Letters text={p.name} /></span>
-                <span className="visually-hidden">: </span>
-                <span className="pblock__title">{p.title}</span>
-              </h3>
-              {p.paras.map((para, i) => (
-                <p key={i} className="pblock__para">
-                  {typeof para === 'string' ? para : <>{para.text}<strong>{para.strong}</strong></>}
-                </p>
+      <div className="pblock__ribbon" aria-hidden="true"><span>{ribbon}</span></div>
+      <div className="shell pblock__shell">
+        <div className="pblock__grid">
+          <Reveal className="pblock__text">
+            <h3 id={`${p.id}-title`} className="pblock__heading">
+              <span className="pblock__name"><Letters text={p.name} /></span>
+              <span className="visually-hidden">: </span>
+              <span className="pblock__title">{p.title}</span>
+            </h3>
+            {p.paras.map((para, i) => (
+              <p key={i} className="pblock__para">
+                {typeof para === 'string' ? para : <>{para.text}<strong>{para.strong}</strong></>}
+              </p>
+            ))}
+          </Reveal>
+
+          <figure className="pblock__visual">
+            <div className="pblock__card">
+              {/* The jar's 360° turn, scrubbed by scroll rather than played */}
+              <video ref={videoRef} className="pblock__video" src={p.image.scrub} muted playsInline preload="auto"
+                aria-label={p.image.alt} />
+            </div>
+            {p.formatTbc && <figcaption className="fine pblock__caption">{p.formatTbc} <Tbc /></figcaption>}
+          </figure>
+
+          <Reveal delay={120} className="pblock__contains">
+            <h4 className="mono">{p.containsTitle}</h4>
+            <ol className="contains">
+              {p.contains.map((item, i) => (
+                <li key={item} style={{ '--i': i }}>
+                  <span className="contains__label">{item}</span>
+                </li>
               ))}
-              {(p.safety || p.blockSafety) && <SafetyNote tone={dark ? 'dark' : 'light'} className="mt-4" />}
-            </Reveal>
-          </div>
-
-          <div className="col-12 col-md-7 col-lg-4">
-            {p.image.cutout ? (
-              <Reveal variant="up" as="figure" className="pblock__visual pblock__visual--cutout">
-                <div className="pblock__cutout" ref={visualRef}>
-                  {/* Only the jar moves: it travels a small circle while staying upright */}
-                  <div className={p.image.orbit ? 'jar-orbit' : 'pblock__float'}>
-                    <div className="jar-orbit__offset">
-                      <div className="jar-orbit__upright">
-                        <img src={`/img/${p.image.name}.webp`} alt={p.image.alt} loading="lazy" decoding="async" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ) : (
-            <Reveal variant="mask" as="figure" className="pblock__visual">
-              <div
-                className={`frame pblock__frame ${p.image.video ? `pblock__frame--video${p.image.videoAlpha ? ' pblock__frame--alpha' : ''}` : ''}${p.image.drift ? ' pblock__frame--drift' : ''}${p.image.spin ? ' pblock__frame--spin' : ''}${spinning ? ' is-spinning' : ''}`}
-                ref={p.image.video || p.image.spin ? undefined : visualRef}
-                onMouseEnter={p.image.spin ? startSpin : undefined}
-                onClick={p.image.spin ? startSpin : undefined}
-                onAnimationEnd={p.image.spin ? (e) => {
-                  if (e.animationName === 'restore-spin-y') setSpinning(false);
-                } : undefined}
-              >
-                {p.image.video
-                  ? <ProductVideo image={p.image} />
-                  : <Img name={p.image.name} alt={p.image.alt} sizes="(min-width: 992px) 30vw, (min-width: 768px) 55vw, 100vw" />}
-              </div>
-              {p.formatTbc && <figcaption className="fine pblock__caption">{p.formatTbc} <Tbc /></figcaption>}
-            </Reveal>
-            )}
-          </div>
-
-          <div className="col-12 col-md-5 col-lg-4">
-            <Reveal delay={120} className="pblock__contains">
-              <h4 className="mono">{p.containsTitle}</h4>
-              <ol className="contains">
-                {p.contains.map((item, i) => (
-                  <li key={item} style={{ '--i': i }}>
-                    <span className="contains__label">{item}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className="pblock__meta fine">{p.meta.join(' · ')}</p>
-              <TextLink href={p.labelHref}>View full label &amp; amounts</TextLink>
-            </Reveal>
-          </div>
+            </ol>
+            <p className="pblock__meta fine">{p.meta.join(' · ')}</p>
+          </Reveal>
         </div>
       </div>
     </article>
   );
 }
 
+// Origin and Restore side by side on one track. On desktop the track pins and scrolling down
+// slides it sideways from Origin to Restore; on phones the panels stack and each runs its own
+// scroll progress. Either way the names glide and the jars turn with the scroll.
 export default function Sequence() {
+  const wide = useMediaQuery('(min-width: 992px)');
+  const reduced = useReducedMotion();
+  const horizontal = wide && !reduced;
+  const trackRef = useRef(null);
+  const originVideo = useRef(null);
+  const restoreVideo = useRef(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const panels = [...track.querySelectorAll('.pblock')];
+    const videos = [originVideo.current, restoreVideo.current];
+    let frame = 0;
+
+    const scrub = (video, t) => {
+      if (!video || !video.duration) return;
+      const time = clamp01(t) * (video.duration - 0.05);
+      if (Math.abs(video.currentTime - time) > 0.02) video.currentTime = time;
+    };
+
+    const update = () => {
+      frame = 0;
+      const vh = window.innerHeight;
+      if (horizontal) {
+        // Whole track: hold on Origin briefly, slide across, then hold on Restore
+        const r = track.getBoundingClientRect();
+        const p = clamp01(-r.top / (r.height - vh));
+        track.style.setProperty('--slide', clamp01((p - 0.12) / 0.76).toFixed(4));
+        panels.forEach((el) => el.style.setProperty('--p', p.toFixed(4)));
+        scrub(videos[0], p / 0.55);
+        scrub(videos[1], (p - 0.45) / 0.55);
+      } else {
+        // Each panel's own progress through the viewport
+        panels.forEach((el, i) => {
+          const r = el.getBoundingClientRect();
+          const p = clamp01((vh - r.top) / (vh + r.height));
+          el.style.setProperty('--p', p.toFixed(4));
+          scrub(videos[i], (p - 0.1) / 0.8);
+        });
+      }
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // The first frame needs the video's duration, which arrives with its metadata
+    videos.forEach((v) => v?.addEventListener('loadedmetadata', onScroll));
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      videos.forEach((v) => v?.removeEventListener('loadedmetadata', onScroll));
+      cancelAnimationFrame(frame);
+      track.style.removeProperty('--slide');
+    };
+  }, [horizontal]);
+
   return (
     <section id="sequence" className="sequence" aria-labelledby="sequence-title">
-      {/* Intro: one-line heading, then the description, opening onto the Origin block below */}
+      {/* Intro: one-line heading, then the description, opening onto the product track below */}
       <div className="sequence__intro">
         <div className="shell">
           <Reveal as="h2" id="sequence-title" className="sequence__title">
@@ -145,8 +143,15 @@ export default function Sequence() {
           <Reveal as="p" delay={120} className="lead-text sequence__lead">{sequence.lead}</Reveal>
         </div>
       </div>
-      <ProductBlock product="origin" tone="morning" />
-      <ProductBlock product="restore" tone="night" />
+
+      <div ref={trackRef} className={`ptrack ${horizontal ? 'ptrack--horizontal' : ''}`}>
+        <div className="ptrack__pin">
+          <div className="ptrack__rail">
+            <ProductPanel product="origin" tone="morning" videoRef={originVideo} />
+            <ProductPanel product="restore" tone="night" videoRef={restoreVideo} />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

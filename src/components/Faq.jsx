@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { faq } from '../data/content.js';
 import Icon from './ui/Icon.jsx';
-import { Button, Img, SafetyNote, SplitLines } from './ui/primitives.jsx';
+import { Button, Img, SplitLines } from './ui/primitives.jsx';
 import './Faq.css';
 
 function FaqItem({ item, index, open, onToggle }) {
@@ -30,7 +30,7 @@ function FaqItem({ item, index, open, onToggle }) {
         inert={open ? undefined : ''}
       >
         <div className="faq-item__panel">
-          {item.safety ? <SafetyNote /> : <p>{item.a}</p>}
+          <p>{item.a}</p>
         </div>
       </div>
     </li>

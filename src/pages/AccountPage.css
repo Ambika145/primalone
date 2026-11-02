@@ -1,0 +1,65 @@
+/* Account: sign-in gate, then order history and help (after seed.com) */
+.acc { background: var(--paper); }
+
+.acc-gate { padding: clamp(130px, 14vw, 180px) 0 clamp(80px, 9vw, 120px); background: var(--sand); }
+.acc-gate__grid { display: grid; grid-template-columns: 1fr minmax(0, 440px); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.acc-gate__sub { margin-top: 16px; max-width: 40ch; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.55; color: var(--muted); }
+
+.acc-card {
+  display: grid; gap: 14px; padding: clamp(24px, 2.6vw, 34px); border-radius: 28px;
+  background: var(--forest); color: var(--cream); box-shadow: 0 40px 70px -40px rgba(14, 27, 18, .6);
+}
+.acc-card__tabs { display: inline-flex; justify-self: start; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(246, 241, 231, .1); margin-bottom: 8px; }
+.acc-card__tabs button { border: 0; border-radius: 999px; padding: 8px 16px; background: transparent; color: var(--muted-dark); font-size: 14px; font-weight: 500; }
+.acc-card__tabs button[aria-selected='true'] { background: var(--cream); color: var(--forest); }
+.acc-card__title { font-size: 26px; font-weight: 600; letter-spacing: -.02em; }
+.acc-card__sub { margin-top: -8px; font-size: 14.5px; color: var(--muted-dark); }
+.acc-field { display: grid; gap: 6px; font-size: 13px; color: var(--muted-dark); }
+.acc-field input {
+  padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(246, 241, 231, .4);
+  background: transparent; color: var(--cream); font-size: 15px;
+}
+.acc-field input:focus { outline: none; border-color: var(--gold-soft); }
+.acc-card__go {
+  justify-self: end; margin-top: 4px; border: 0; border-radius: 999px; padding: 12px 26px;
+  background: var(--cream); color: var(--forest); font-size: 15px; font-weight: 500; transition: background .25s;
+}
+.acc-card__go:hover { background: #fff; }
+.acc-card__note { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; color: var(--muted-dark); }
+
+.acc-dash { padding: clamp(130px, 13vw, 170px) 0 clamp(56px, 7vw, 96px); }
+.acc-dash__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: clamp(32px, 4vw, 56px); }
+.acc-dash__hi { font-size: 18px; font-weight: 600; }
+.acc-dash__email { color: var(--muted); font-size: 14.5px; }
+.acc-dash__out { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 9px 18px; font-weight: 500; }
+.acc-dash__out:hover { background: var(--sand); }
+.acc-h { font-size: clamp(32px, 3.4vw, 50px); font-weight: 500; letter-spacing: -.03em; color: var(--forest); margin-bottom: 24px; }
+.acc-table { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff; }
+.acc-table__head { display: grid; grid-template-columns: repeat(4, 1fr) auto; padding: 14px 22px; font-size: 13.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--forest); border-bottom: 1px solid var(--line); }
+.acc-table__head span:last-child { text-align: right; }
+.acc-table__empty { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 28px 22px; color: var(--muted); }
+
+.acc-help { padding: clamp(48px, 7vw, 100px) 0 clamp(72px, 9vw, 120px); }
+.acc-help__grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 80px); }
+.acc-help .acc-h { color: var(--ink); margin-bottom: 8px; }
+.acc-help__sub a { text-decoration: underline; text-underline-offset: 3px; }
+.acc-faq li { border-top: 1px solid var(--line); }
+.acc-faq li:last-child { border-bottom: 1px solid var(--line); }
+.acc-faq button {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 22px 0; border: 0; background: none; text-align: left; font-size: 16px; font-weight: 600; color: var(--forest);
+}
+.acc-faq .icon { transition: rotate .3s var(--ease-out); flex: none; }
+.acc-faq li.is-open .icon { rotate: 45deg; }
+.acc-faq__a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--ease-out); }
+.acc-faq__a p { overflow: hidden; color: var(--muted); line-height: 1.6; }
+.acc-faq li.is-open .acc-faq__a { grid-template-rows: 1fr; }
+.acc-faq li.is-open .acc-faq__a p { padding-bottom: 20px; }
+
+@media (max-width: 991.98px) {
+  .acc-gate__grid, .acc-help__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 575.98px) {
+  .acc-table__head { grid-template-columns: repeat(3, 1fr); }
+  .acc-table__head span:nth-child(3), .acc-table__head span:nth-child(4) { display: none; }
+}

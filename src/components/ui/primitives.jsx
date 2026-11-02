@@ -1,6 +1,11 @@
+import { Link } from 'react-router-dom';
 import { useInView } from '../../hooks/motion.js';
 import { SHOW_REVIEW_TAGS, safetyNote } from '../../data/content.js';
 import Icon from './Icon.jsx';
+
+function isAppPath(href) {
+  return typeof href === 'string' && href.startsWith('/') && !href.startsWith('//');
+}
 
 // Widths produced by scripts/optimize-images.mjs for every photo.
 const widths = [640, 1080, 1600];
@@ -56,24 +61,35 @@ export function SafetyNote({ tone = 'light', className = '' }) {
   );
 }
 
-export function Button({ href, onClick, variant = 'dark', children, arrow = true, className = '', ...rest }) {
-  const Tag = href ? 'a' : 'button';
-  return (
-    <Tag href={href} onClick={onClick} type={href ? undefined : 'button'}
-      className={`pill pill--${variant} ${className}`} {...rest}>
+export function Button({ href, onClick, variant = 'dark', children, arrow = true, className = '', type = 'button', ...rest }) {
+  const classNames = `pill pill--${variant} ${className}`;
+  const inner = (
+    <>
       <span className="pill__label">{children}</span>
       {arrow && <span className="pill__arrow" aria-hidden="true"><Icon name="arrow" size={16} /></span>}
-    </Tag>
+    </>
   );
+  if (isAppPath(href)) {
+    return <Link to={href} onClick={onClick} className={classNames} {...rest}>{inner}</Link>;
+  }
+  if (href) {
+    return <a href={href} onClick={onClick} className={classNames} {...rest}>{inner}</a>;
+  }
+  return <button type={type} onClick={onClick} className={classNames} {...rest}>{inner}</button>;
 }
 
 export function TextLink({ href, children, className = '', ...rest }) {
-  return (
-    <a href={href} className={`text-link ${className}`} {...rest}>
+  const classNames = `text-link ${className}`;
+  const inner = (
+    <>
       <span>{children}</span>
       <Icon name="arrow" size={16} />
-    </a>
+    </>
   );
+  if (isAppPath(href)) {
+    return <Link to={href} className={classNames} {...rest}>{inner}</Link>;
+  }
+  return <a href={href} className={classNames} {...rest}>{inner}</a>;
 }
 
 // Splits a heading into masked lines that rise in on reveal.

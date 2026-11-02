@@ -25,7 +25,7 @@ export default function StickyBuyBar() {
         <small>Origin · daily essentials</small>
         <b>From {formatINR(from)}/day</b>
       </div>
-      <Button href="#shop" variant="light" arrow={false}>Shop Origin</Button>
+      <Button href="/products/origin" variant="light" arrow={false}>Shop Origin</Button>
     </div>
   );
 }

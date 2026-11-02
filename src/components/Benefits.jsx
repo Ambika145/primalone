@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { benefits } from '../data/content.js';
 import { useInView, useReducedMotion } from '../hooks/motion.js';
-import { SafetyNote, SplitLines } from './ui/primitives.jsx';
+import { SplitLines } from './ui/primitives.jsx';
 import './Benefits.css';
 
 export default function Benefits() {
@@ -99,7 +99,6 @@ export default function Benefits() {
                 </li>
               ))}
             </ul>
-            {t.safety && <SafetyNote className="benefits__safety" />}
           </div>
         ))}
 

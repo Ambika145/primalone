@@ -1,4 +1,4 @@
-/* How it works: heading, lead, then three photo panels for morning → day → evening */
+/* How it works: heading, lead, then three equal photo cards named in large type */
 .day { background: var(--cream); }
 .day__title {
   font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.035em;
@@ -7,81 +7,59 @@
 .day__title .is-accent { color: var(--green); }
 .day__lead { margin-top: clamp(16px, 1.6vw, 22px); max-width: none; }
 
-.day-panels {
-  display: flex; gap: 14px; margin-top: clamp(36px, 4.5vw, 64px);
-  height: clamp(500px, 64vh, 640px);
+.day-cards {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px);
+  margin-top: clamp(36px, 4.5vw, 64px);
 }
-.day-panel {
-  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: var(--radius-lg);
-  color: var(--cream); cursor: pointer; outline: none;
-  transition: flex-grow .9s var(--ease-out), opacity .9s var(--ease-out), transform 1s var(--ease-out);
+.day-card {
+  position: relative; overflow: hidden; border-radius: var(--radius-lg);
+  aspect-ratio: 3 / 2.1; color: #fff; isolation: isolate;
 }
-.day-panel.is-active { flex-grow: 1.55; }
-.day-panel:focus-visible { box-shadow: 0 0 0 3px var(--green); }
-
-.day-panel__img { position: absolute; inset: 0; }
-.day-panel__img img { transform: scale(1.08); transition: transform 1.6s var(--ease-out); animation: panel-drift 16s ease-in-out infinite alternate; }
-.day-panel.is-active .day-panel__img img { transform: scale(1.02); }
-.day-panel--morning .day-panel__img img { object-position: 50% 45%; }
-.day-panel--day .day-panel__img img { object-position: 50% 55%; }
-.day-panel--night .day-panel__img img { object-position: 60% 50%; animation-delay: -8s; }
-@keyframes panel-drift { from { translate: -1.5% 0; } to { translate: 1.5% -1%; } }
-
-/* Each panel's light: warm morning, neutral day, deep night — all darken at the bottom for the text */
-.day-panel::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(14, 27, 18, 0) 38%, rgba(14, 27, 18, .55) 62%, rgba(14, 27, 18, .9) 100%);
+.day-card__img { position: absolute; inset: 0; z-index: -1; }
+.day-card__img img { transition: scale 1.4s var(--ease-out); }
+.day-card:hover .day-card__img img { scale: 1.06; }
+.day-card--morning .day-card__img img { object-position: 50% 45%; }
+.day-card--day .day-card__img img { object-position: 50% 55%; }
+.day-card--night .day-card__img img { object-position: 60% 50%; }
+/* an even veil so the white type reads on every photo, a touch deeper at night */
+.day-card::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(70% 70% at 50% 50%, rgba(14, 27, 18, .42), rgba(14, 27, 18, .22));
+  transition: background .6s var(--ease-out);
 }
-.day-panel--morning::after { background: linear-gradient(180deg, rgba(217, 191, 134, .12) 0%, rgba(14, 27, 18, 0) 38%, rgba(30, 36, 18, .6) 62%, rgba(30, 36, 18, .92) 100%); }
-.day-panel--night::after { background: linear-gradient(180deg, rgba(14, 27, 18, .2) 0%, rgba(14, 27, 18, .35) 40%, rgba(14, 27, 18, .92) 100%); }
+.day-card--night::after { background: radial-gradient(70% 70% at 50% 50%, rgba(14, 27, 18, .55), rgba(14, 27, 18, .32)); }
 
-.day-panel__text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 30px); }
-.day-panel__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: clamp(22px, 2vw, 30px); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; }
-.day-panel__opt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(246, 241, 231, .55); }
-.day-panel__body { margin-top: 8px; font-size: 15px; line-height: 1.55; color: #e3e8df; max-width: 400px; }
-.day-panel__safety { margin-top: 14px; font-size: 13px; padding: 10px 12px; background: rgba(14, 27, 18, .55); }
+.day-card__text {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: clamp(18px, 2vw, 32px); text-align: center;
+}
+.day-card__title {
+  font-family: var(--display); font-weight: 600; text-transform: uppercase;
+  font-size: clamp(24px, 2.5vw, 40px); line-height: 1.05; letter-spacing: .01em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .25);
+}
+.day-card__opt {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .7);
+}
+/* the line under each title appears on hover / focus; always shown on touch screens */
+.day-card__body {
+  max-width: 30ch; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, .92);
+  opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease-out), transform .6s var(--ease-out);
+}
+.day-card:hover .day-card__body { opacity: 1; transform: none; }
+@media (hover: none) { .day-card__body { opacity: 1; transform: none; } }
 
-/* Tablets and phones: a swipeable row, one and a bit panels in view */
+/* Tablets and phones: a swipeable row, one and a bit cards in view */
 @media (max-width: 991.98px) {
-  .day-panels {
-    height: auto; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  .day-cards {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
     margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
   }
-  .day-panels::-webkit-scrollbar { display: none; }
-  .day-panel, .day-panel.is-active { flex: 0 0 min(78%, 420px); height: 500px; scroll-snap-align: start; }
-}
-
-/* ---- Entrance: each photo opens like window blinds, slat by slat ---- */
-@property --slat { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-.day-panel__img {
-  --slat: 0%;
-  -webkit-mask: repeating-linear-gradient(90deg, #000 0 var(--slat), transparent var(--slat) 12.5%);
-  mask: repeating-linear-gradient(90deg, #000 0 var(--slat), transparent var(--slat) 12.5%);
-  transition: --slat 1.3s var(--ease-out);
-  transition-delay: calc(250ms + var(--k) * 220ms);
-}
-.day-panel.is-in .day-panel__img { --slat: 12.6%; }
-
-/* ---- Ongoing: a band of sunlight crosses each panel in turn (one 12s loop across all three) ---- */
-.day-panel__light {
-  position: absolute; inset: -20% -60%; z-index: 0; pointer-events: none;
-  background: linear-gradient(105deg, transparent 38%, rgba(255, 228, 170, .22) 45%, rgba(255, 242, 212, .42) 50%, rgba(255, 228, 170, .22) 55%, transparent 62%);
-  translate: -32% 0; opacity: 0;
-  animation: day-light 12s ease-in-out infinite;
-  animation-delay: calc(1.6s + var(--k) * 4s);
-}
-.day-panel--night .day-panel__light {
-  background: linear-gradient(105deg, transparent 40%, rgba(200, 214, 236, .2) 50%, transparent 60%);
-}
-@keyframes day-light {
-  0% { translate: -32% 0; opacity: 0; }
-  4% { opacity: 1; }
-  30% { opacity: 1; }
-  33.3%, 100% { translate: 32% 0; opacity: 0; }
+  .day-cards::-webkit-scrollbar { display: none; }
+  .day-card { flex: 0 0 min(80%, 420px); aspect-ratio: 4 / 4.4; scroll-snap-align: start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .day-panel, .day-panel__img img { transition: none; animation: none; }
-  .day-panel__img { --slat: 12.6%; transition: none; }
-  .day-panel__light { display: none; }
+  .day-card__img img, .day-card__body { transition: none; }
 }

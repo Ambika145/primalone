@@ -200,3 +200,64 @@
   .tcard:hover .tcard__inner { transform: none; }
   .tcard:hover .tcard__media img { transform: none; }
 }
+
+/* ---- Video testimonials: tall portrait cards with a play button and the name over the frame ---- */
+.vquotes { position: relative; margin-top: clamp(40px, 5vw, 72px); }
+.vquotes__row {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 16px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.vquotes__row::-webkit-scrollbar { display: none; }
+.vquote { scroll-snap-align: start; }
+.vquote__frame {
+  position: relative; margin: 0; overflow: hidden; border-radius: 22px;
+  aspect-ratio: 3 / 4; background: var(--forest-2); isolation: isolate;
+}
+.vquote__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1.2s var(--ease-out), filter .6s; }
+.vquote:hover .vquote__media { scale: 1.04; }
+.vquote__frame::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(14, 27, 18, 0) 45%, rgba(14, 27, 18, .78) 100%);
+  transition: background .5s var(--ease-out);
+}
+.vquote.is-open .vquote__frame::after { background: rgba(14, 27, 18, .78); }
+.vquote__play {
+  position: absolute; left: 50%; top: 50%; z-index: 2; translate: -50% -50%;
+  width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(246, 241, 231, .2); color: #fff; border: 0;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35);
+  transition: scale .3s var(--ease-out), background .3s, top .5s var(--ease-out);
+}
+.vquote__play svg { margin-left: 2px; }
+.vquote.is-open .vquote__play svg { margin-left: 0; }
+.vquote__play:hover { scale: 1.08; background: rgba(246, 241, 231, .32); }
+.vquote__play:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 3px; }
+.vquote.is-open .vquote__play { top: 18%; }
+.vquote__cap {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(18px, 1.8vw, 24px);
+  display: flex; flex-direction: column; gap: 4px; color: #fff;
+}
+.vquote__cap .tcard__stars { margin-bottom: 6px; }
+.vquote__who { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.vquote__meta { font-size: 11px; color: rgba(255, 255, 255, .72); }
+/* the quote waits under the fold of the card and rises in when play is pressed */
+.vquote__quote { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .6s var(--ease-out), opacity .5s, margin .6s var(--ease-out); }
+.vquote__quote p { overflow: hidden; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.5; }
+.vquote.is-open .vquote__quote { grid-template-rows: 1fr; opacity: 1; margin-bottom: 14px; }
+
+.vquotes__nav { display: none; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.vquotes__nav button {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 0;
+  background: var(--cream); color: var(--forest); transition: scale .3s var(--ease-out);
+}
+.vquotes__nav button:hover { scale: 1.06; }
+.vquotes__nav .is-flipped { rotate: 180deg; }
+
+@media (max-width: 991.98px) {
+  .vquotes__row { grid-auto-columns: min(74%, 340px); margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+  .vquotes__nav { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vquote__media, .vquote__quote, .vquote__play { transition: none; }
+}

@@ -1,0 +1,281 @@
+/* Product detail: gallery + buy box, ingredient bento, ritual steps, notes + quote, FAQ.
+   Origin is morning (light sand); Restore is night (dark forest). */
+.pd--restore { background: var(--night); color: var(--cream); }
+
+/* ---- Top: gallery + buy box ---- */
+.pd-top { padding-top: calc(var(--nav-h) + clamp(20px, 2.4vw, 36px)); padding-bottom: clamp(40px, 4vw, 64px); }
+.pd--origin .pd-top { background: linear-gradient(180deg, var(--sand), var(--paper) 85%); }
+.pd--restore .pd-top { background: radial-gradient(50% 60% at 85% 0%, rgba(217, 160, 80, .14), transparent 70%), var(--night); }
+.pd-top__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+
+.pd-gal { position: sticky; top: 96px; }
+.pd-gal__stage { position: relative; height: clamp(340px, calc(100svh - 190px), 620px); border-radius: 28px; overflow: hidden; background: #fff; }
+.pd--origin .pd-gal__stage { background: #f3eee2; }
+.pd--restore .pd-gal__stage { background: var(--cream); }
+.pd-gal__slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .6s var(--ease-out), scale 1.2s var(--ease-out); scale: 1.03; }
+.pd-gal__slide.is-on { opacity: 1; scale: 1; }
+.pd-gal__slide img, .pd-gal__slide video { width: 100%; height: 100%; object-fit: cover; }
+.pd-gal__slide--video video { mix-blend-mode: multiply; object-position: 50% 50%; }
+.pd-gal__thumbs { display: flex; gap: 8px; margin-top: 12px; }
+.pd-gal__thumbs button {
+  position: relative; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 16px; overflow: hidden;
+  background: var(--cream); opacity: .6; box-shadow: inset 0 0 0 2px transparent; transition: opacity .25s, box-shadow .25s, transform .3s var(--ease-out);
+}
+.pd-gal__thumbs button img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.pd-gal__thumbs button:hover { opacity: 1; transform: translateY(-2px); }
+.pd-gal__thumbs button.is-on { opacity: 1; box-shadow: 0 0 0 2px var(--green); }
+.pd--restore .pd-gal__thumbs button.is-on { box-shadow: 0 0 0 2px var(--gold-soft); }
+.pd-gal__360 { position: absolute; left: 6px; bottom: 6px; padding: 1px 6px; border-radius: 999px; font-size: 10.5px; font-weight: 700; background: var(--forest); color: var(--cream); }
+
+/* Buy box */
+.pd-buy { padding-top: clamp(4px, 1vw, 16px); }
+.pd-buy__name { margin-top: 0; font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.05em; font-size: clamp(46px, 4.6vw, 76px); line-height: .92; }
+.pd-buy__desc { margin-top: 8px; font-size: clamp(17px, 1.35vw, 21px); font-weight: 500; letter-spacing: -.015em; color: var(--olive); }
+.pd--restore .pd-buy__desc { color: var(--gold-soft); }
+.pd-buy__line { margin-top: 6px; font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 42ch; }
+.pd--restore .pd-buy__line { color: var(--muted-dark); }
+
+.pd-facts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 18px 0 0; border-block: 1px solid var(--line); }
+.pd--restore .pd-facts { border-color: var(--line-dark); }
+.pd-facts div { padding: 11px 14px 11px 0; }
+.pd-facts div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+.pd--restore .pd-facts div + div { border-color: var(--line-dark); }
+.pd-facts dt { font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
+.pd-facts dd { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.pd--restore .pd-facts dd { color: var(--muted-dark); }
+
+.pd-sizes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.pd-size {
+  display: grid; grid-template-columns: auto 1fr; grid-template-areas: 'dot days' 'price price' 'per per';
+  align-items: center; gap: 2px 10px; padding: 12px 16px; border: 0; border-radius: 18px; text-align: left;
+  background: rgba(17, 26, 20, .04); color: inherit; box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow .25s, background .25s;
+}
+.pd--restore .pd-size { background: rgba(246, 241, 231, .05); box-shadow: inset 0 0 0 1px var(--line-dark); }
+.pd-size:hover { box-shadow: inset 0 0 0 1px currentColor; }
+.pd-size.is-on { background: #fff; box-shadow: inset 0 0 0 2px var(--forest); }
+.pd--restore .pd-size.is-on { background: rgba(246, 241, 231, .1); box-shadow: inset 0 0 0 2px var(--gold-soft); }
+.pd-size__dot { grid-area: dot; width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; opacity: .6; }
+.pd-size.is-on .pd-size__dot { opacity: 1; box-shadow: inset 0 0 0 5px var(--forest); }
+.pd--restore .pd-size.is-on .pd-size__dot { box-shadow: inset 0 0 0 5px var(--gold-soft); }
+.pd-size__days { grid-area: days; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.pd-size__price { grid-area: price; margin-top: 4px; font-size: 21px; font-weight: 600; letter-spacing: -.02em; }
+.pd-size__per { grid-area: per; font-size: 13px; color: var(--muted); }
+.pd--restore .pd-size__per { color: var(--muted-dark); }
+.pd-size:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+.pd-buy__cta { margin-top: 12px; min-height: 54px; font-size: 16px; }
+.pd-buy__price { display: inline-block; animation: pd-tick .45s var(--ease-out); }
+@keyframes pd-tick { from { opacity: 0; transform: translateY(6px); } }
+.pd-assure { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 0; font-size: 13.5px; color: var(--muted); }
+.pd--restore .pd-assure { color: var(--muted-dark); }
+.pd-assure li { display: flex; align-items: center; gap: 6px; }
+.pd-assure .icon { color: var(--green); }
+.pd--restore .pd-assure .icon { color: var(--gold-soft); }
+.pd-buy__safety { margin-top: 16px; }
+.pd-buy .x-acc { margin-top: 14px; }
+
+/* ---- Ingredients bento ---- */
+.pd-ings__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 16px); }
+.pd-ings__photo { grid-column: span 2; grid-row: span 2; border-radius: 28px; overflow: hidden; min-height: 320px; }
+.pd-ings__photo img { width: 100%; height: 100%; object-fit: cover; transition: scale 1.6s var(--ease-out); }
+.pd-ings__photo:hover img { scale: 1.05; }
+.pd-ing {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px;
+  min-height: clamp(150px, 13vw, 190px); padding: clamp(18px, 1.8vw, 26px); border-radius: 24px;
+  background: var(--paper); transition: transform .45s var(--ease-out), background .3s, color .3s;
+}
+.pd--restore .pd-ing { background: var(--forest-2); }
+.pd-ing:hover { transform: translateY(-4px); background: var(--forest); color: var(--cream); }
+.pd--restore .pd-ing:hover { background: var(--cream); color: var(--forest); }
+.pd-ing__t { font-size: clamp(17px, 1.4vw, 21px); font-weight: 600; letter-spacing: -.02em; line-height: 1.2; }
+/* the last tile stretches to close the grid: Origin has seven (span 2), Restore five (full row) */
+.pd-ing:last-child { grid-column: span 2; }
+.pd--restore .pd-ing:last-child { grid-column: 1 / -1; min-height: 0; flex-direction: row; align-items: center; }
+
+/* ---- Ritual steps ---- */
+.pd-ritual__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); counter-reset: s; }
+.pd-step { position: relative; }
+.pd-step__img { aspect-ratio: 4 / 4.4; border-radius: 26px; overflow: hidden; }
+.pd-step__img img { width: 100%; height: 100%; object-fit: cover; transition: scale 1.4s var(--ease-out); }
+.pd-step:hover .pd-step__img img { scale: 1.05; }
+.pd-step__cap { position: relative; display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+.pd-step__n {
+  position: relative; z-index: 1; flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--forest); color: var(--cream); font-weight: 700;
+}
+.on-night .pd-step__n { background: var(--gold-soft); color: var(--forest); }
+/* a line runs from each number to the next step */
+.pd-step:not(:last-child) .pd-step__cap::after {
+  content: ''; flex: 1; height: 1.5px; margin-right: calc(-1 * clamp(16px, 2vw, 28px));
+  background: linear-gradient(90deg, var(--gold), transparent); transform: scaleX(0); transform-origin: left;
+}
+/* steps: photo opens upward, then the number pops, then the line draws to the next */
+.pd-step__img { clip-path: inset(100% 0 0 0 round 26px); transition: clip-path 1.2s var(--ease-out); transition-delay: calc(var(--i) * .18s); }
+.pd-ritual__steps.is-in .pd-step__img { clip-path: inset(0 0 0 0 round 26px); }
+.pd-step__n { scale: 0; transition: scale .6s cubic-bezier(.34, 1.6, .64, 1); transition-delay: calc(.5s + var(--i) * .18s); }
+.pd-ritual__steps.is-in .pd-step__n { scale: 1; }
+.pd-step .x-h3 { opacity: 0; transform: translateY(8px); transition: opacity .6s, transform .7s var(--ease-out); transition-delay: calc(.6s + var(--i) * .18s); }
+.pd-ritual__steps.is-in .pd-step .x-h3 { opacity: 1; transform: none; }
+.pd-ritual__steps.is-in .pd-step__cap::after { transform: scaleX(1); transition: transform 1s var(--ease-out); transition-delay: calc(.9s + var(--i) * .18s); }
+
+/* ---- Notes + quote ---- */
+.pd-why__grid { display: grid; grid-template-columns: 1fr; gap: clamp(40px, 5vw, 72px); }
+.pd-why__grid.is-solo { grid-template-columns: 1fr; }
+.pd-why__grid.is-solo .pd-quote { padding: clamp(36px, 5vw, 80px); }
+.pd-why__grid.is-solo .pd-quote__text p { font-size: clamp(24px, 2.8vw, 42px); max-width: 30ch; }
+.pd-quote {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px; overflow: hidden;
+  padding: clamp(28px, 3.4vw, 52px); border-radius: 32px; color: var(--cream);
+  background: radial-gradient(60% 80% at 100% 0%, rgba(217, 191, 134, .2), transparent 70%), var(--forest);
+}
+.pd--restore .pd-quote { background: radial-gradient(60% 80% at 100% 0%, rgba(143, 201, 138, .2), transparent 70%), var(--olive); }
+.pd-quote::before { content: '“'; position: absolute; right: 24px; top: -40px; font-size: 220px; line-height: 1; color: rgba(246, 241, 231, .08); font-family: Georgia, serif; }
+.pd-quote__label { font-size: 15px; font-weight: 600; color: var(--gold-soft); }
+.pd-quote blockquote { margin: 0; }
+.pd-quote p { font-size: clamp(20px, 1.9vw, 28px); line-height: 1.4; letter-spacing: -.02em; font-weight: 500; }
+/* each word brightens as the quote scrolls through the screen */
+.pd-quote__text p span { opacity: calc(.22 + clamp(0, var(--p, 1) * (var(--n) + 4) - var(--i), 1) * .78); transition: opacity .25s linear; }
+.pd-quote__text.is-static p span { opacity: 1; }
+
+/* ---- FAQ ---- */
+.pd-faq__grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 5vw, 88px); align-items: start; }
+.pd-faq__grid .x-head { margin-bottom: 20px; }
+.pd--restore .pd-faq .text-link { color: var(--cream); }
+.pd-disc { margin-top: 22px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.on-night .pd-disc { color: var(--muted-dark); }
+
+/* ---- Responsive ---- */
+@media (max-width: 991.98px) {
+  .pd-top__grid, .pd-why__grid, .pd-faq__grid { grid-template-columns: 1fr; }
+  .pd-gal { position: static; }
+  .pd-ings__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pd-ritual__steps { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78%, 360px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+  .pd-ritual__steps::-webkit-scrollbar { display: none; }
+  .pd-step { scroll-snap-align: start; }
+}
+@media (max-width: 767.98px) {
+  /* gallery becomes a swipe strip */
+  .pd-gal__stage { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; aspect-ratio: 1 / 1.05; }
+  .pd-gal__stage::-webkit-scrollbar { display: none; }
+  .pd-gal__slide { position: relative; flex: 0 0 100%; opacity: 1; scale: 1; scroll-snap-align: start; }
+  .pd-gal__thumbs button { width: 58px; height: 58px; border-radius: 12px; }
+  .pd-ings__photo { grid-column: span 2; grid-row: auto; min-height: 220px; }
+  .pd-facts { grid-template-columns: 1fr; }
+  .pd-facts div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .pd--restore .pd-facts div + div { border-color: var(--line-dark); }
+  .pd-facts div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pd-gal__slide, .pd-ing, .pd-step__img img, .pd-ings__photo img { transition: none; }
+}
+
+/* ================= Motion & interaction ================= */
+/* Buy box: each block rises in turn on load */
+.pd-in { animation: pd-rise .9s var(--ease-out) both; animation-delay: calc(.1s + var(--d) * .07s); }
+@keyframes pd-rise { from { opacity: 0; transform: translateY(18px); } }
+
+/* Gallery: the stage leans toward the pointer; counter, arrows */
+.pd-gal__frame { --mx: 0; --my: 0; position: relative; animation: pd-rise 1s var(--ease-out) both; }
+.pd-gal__stage { transform: perspective(1200px) rotateY(calc(var(--mx) * 5deg)) rotateX(calc(var(--my) * -5deg)); transition: transform .8s var(--ease-out); }
+.pd-gal__slide.is-on img { translate: calc(var(--mx) * -8px) calc(var(--my) * -8px); scale: 1.02; transition: translate .8s var(--ease-out); }
+.pd-gal__count {
+  position: absolute; left: 18px; top: 18px; z-index: 2; padding: 7px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600;
+  background: rgba(251, 248, 242, .9); color: var(--forest); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.pd-gal__arrows { position: absolute; right: 16px; bottom: 16px; z-index: 2; display: flex; gap: 8px; }
+.pd-gal__arrows button {
+  width: 46px; height: 46px; border: 0; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(251, 248, 242, .92); color: var(--forest); box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .45);
+  opacity: 0; transform: translateY(8px); transition: opacity .35s, transform .45s var(--ease-out), background .25s;
+}
+.pd-gal__frame:hover .pd-gal__arrows button, .pd-gal__arrows button:focus-visible { opacity: 1; transform: none; }
+.pd-gal__arrows button:hover { background: #fff; }
+.pd-flip { rotate: 180deg; }
+.pd-gal__thumbs button { animation: pd-rise .7s var(--ease-out) both; animation-delay: calc(.4s + var(--i) * .06s); }
+
+/* Ingredient photo: the mask reveal needs the inner wrapper to fill the tile */
+.pd-ings__photo > div { width: 100%; height: 100%; }
+
+
+/* Sticky buy bar */
+.pd-sticky {
+  position: fixed; left: 50%; bottom: 18px; z-index: 45; display: flex; align-items: center; gap: 14px;
+  padding: 8px 8px 8px 10px; border-radius: 999px; background: rgba(251, 248, 242, .94); color: var(--ink);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 0 0 1px var(--line), 0 24px 50px -20px rgba(14, 27, 18, .5);
+  transform: translate(-50%, 140%); transition: transform .6s var(--ease-out);
+}
+.pd-sticky.is-shown { transform: translate(-50%, 0); }
+.pd-sticky img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: var(--cream); mix-blend-mode: multiply; }
+.pd-sticky__text { display: grid; padding-right: 8px; }
+.pd-sticky__text b { font-size: 16px; font-weight: 600; }
+.pd-sticky__text small { font-size: 13px; color: var(--muted); }
+.pd-sticky .pill { min-height: 48px; }
+
+@media (max-width: 767.98px) {
+  .pd-gal__stage { transform: none; }
+  .pd-gal__arrows { display: none; }
+  .pd-sticky { left: 12px; right: 12px; transform: translateY(140%); }
+  .pd-sticky.is-shown { transform: none; }
+  .pd-sticky .pill { margin-left: auto; }
+  .pd-step:not(:last-child) .pd-step__cap::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pd-in, .pd-gal__frame, .pd-gal__thumbs button { animation: none !important; }
+  .pd-gal__stage, .pd-gal__slide.is-on img { transform: none; translate: none; transition: none; }
+  .pd-step__img { clip-path: none; transition: none; }
+  .pd-step__n { scale: 1; transition: none; }
+  .pd-step .x-h3 { opacity: 1; transform: none; transition: none; }
+  .pd-sticky { transition: none; }
+}
+
+/* Autoplay progress: a line fills along the bottom of the active thumbnail */
+.pd-gal__bar { position: absolute; left: 6px; right: 6px; bottom: 5px; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .5); overflow: hidden; }
+.pd-gal__bar::after { content: ''; position: absolute; inset: 0; background: var(--green); transform: scaleX(0); transform-origin: left; }
+.pd--restore .pd-gal__bar::after { background: var(--forest); }
+.pd-gal.is-auto .pd-gal__bar::after { animation: pd-bar var(--slide-ms) linear forwards; }
+@keyframes pd-bar { to { transform: scaleX(1); } }
+.pd-gal__thumbs button.is-on:has(.pd-gal__360) .pd-gal__360 { bottom: 12px; }
+
+@media (max-width: 991.98px) {
+  .pd-gal__stage { height: auto; aspect-ratio: 4 / 3.4; }
+}
+@media (max-width: 767.98px) {
+  .pd-gal__stage { aspect-ratio: 1 / 1.02; }
+}
+@media (prefers-reduced-motion: reduce) { .pd-gal__bar { display: none; } }
+
+/* The hero photo shows the jar lid: crop from the bottom, not the top */
+.pd-gal__slide:first-child img { object-position: 50% 30%; }
+
+/* What Origin is not: three cards, "It's not" above "It is" */
+.pd-myth__head { margin-bottom: clamp(28px, 3vw, 44px); }
+.pd-myth__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); }
+.pd-myth__grid > .reveal { height: 100%; }
+.pd-myth__card {
+  height: 100%; display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: #fff;
+  box-shadow: 0 0 0 1px var(--line); transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+.pd-myth__card:hover { transform: translateY(-6px); box-shadow: 0 0 0 1px var(--line), 0 30px 60px -36px rgba(14, 27, 18, .5); }
+.pd-myth__not, .pd-myth__is { display: flex; flex-direction: column; gap: 10px; padding: clamp(22px, 2.4vw, 32px); }
+.pd-myth__not { min-height: clamp(150px, 11vw, 172px); }
+.pd-myth__is { flex: 1; min-height: clamp(128px, 9.5vw, 148px); background: var(--forest); color: var(--cream); }
+.pd-myth__label {
+  align-self: flex-start; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.pd-myth__not .pd-myth__label { background: var(--sand); color: var(--muted); }
+.pd-myth__is .pd-myth__label { background: var(--gold-soft); color: var(--forest); }
+.pd-myth__not p { font-size: clamp(17px, 1.35vw, 20px); font-weight: 500; letter-spacing: -.01em; line-height: 1.35; color: var(--muted); }
+.pd-myth__not p::first-letter { text-transform: uppercase; }
+.pd-myth__is p { font-size: clamp(19px, 1.55vw, 23px); font-weight: 600; letter-spacing: -.02em; line-height: 1.3; }
+
+/* reveal: the "It is" half rises in after the card */
+.pd-myth__card .pd-myth__is > * { opacity: 0; transform: translateY(12px); }
+.pd-myth__card.is-in .pd-myth__is > * { opacity: 1; transform: none; transition: opacity .6s var(--ease-out), transform .7s var(--ease-out); transition-delay: calc(.45s + var(--i) * .12s); }
+.pd-myth__card.is-in .pd-myth__is p { transition-delay: calc(.55s + var(--i) * .12s); }
+
+@media (max-width: 991.98px) { .pd-myth__grid { grid-template-columns: 1fr; } .pd-myth__not, .pd-myth__is { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .pd-myth__card .pd-myth__is > * { opacity: 1; transform: none; transition: none; }
+  .pd-myth__card { transition: none; }
+}

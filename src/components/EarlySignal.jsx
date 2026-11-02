@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { signal } from '../data/content.js';
 import { useInView, useReducedMotion } from '../hooks/motion.js';
 import Icon from './ui/Icon.jsx';
@@ -40,6 +40,59 @@ function CountUp({ value }) {
   );
 }
 
+// One video testimonial: portrait poster, play button, name and stars over the frame.
+// Plays the member's clip inline when one is supplied; until then play reveals their quote.
+function VideoQuote({ q, i }) {
+  const [open, setOpen] = useState(false);
+  const videoRef = useRef(null);
+  const toggle = () => {
+    const v = videoRef.current;
+    if (v) { if (v.paused) { v.play().catch(() => {}); setOpen(true); } else { v.pause(); setOpen(false); } return; }
+    setOpen((o) => !o);
+  };
+  return (
+    <Reveal as="li" delay={140 + i * 100} className={`vquote ${open ? 'is-open' : ''}`}>
+      <figure className="vquote__frame">
+        {q.video
+          ? <video ref={videoRef} className="vquote__media" src={q.video} poster={`/img/${q.poster.name}-640.webp`} playsInline preload="none" onEnded={() => setOpen(false)} />
+          : <Img className="vquote__media" name={q.poster.name} alt={q.poster.alt} sizes="(min-width: 992px) 24vw, 70vw" />}
+        <button type="button" className="vquote__play" onClick={toggle} aria-pressed={open}
+          aria-label={q.video ? `${open ? 'Pause' : 'Play'} video from ${q.who}, ${q.meta}` : `${open ? 'Hide' : 'Read'} the quote from ${q.who}, ${q.meta}`}>
+          <Icon name={open ? 'pause' : 'play'} size={22} />
+        </button>
+        <figcaption className="vquote__cap">
+          {!q.video && (
+            <blockquote className="vquote__quote"><p>{q.text}</p></blockquote>
+          )}
+          <Stars rating={q.rating ?? 5} />
+          <span className="vquote__who">{q.who}</span>
+          <span className="vquote__meta mono">{q.meta}</span>
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
+function VideoQuotes({ quotes }) {
+  const rowRef = useRef(null);
+  const step = (dir) => {
+    const row = rowRef.current;
+    const card = row?.querySelector('.vquote');
+    if (card) row.scrollBy({ left: dir * (card.offsetWidth + 16), behavior: 'smooth' });
+  };
+  return (
+    <div className="vquotes">
+      <ul ref={rowRef} className="vquotes__row">
+        {quotes.map((q, i) => <VideoQuote key={q.meta} q={q} i={i} />)}
+      </ul>
+      <div className="vquotes__nav">
+        <button type="button" onClick={() => step(-1)} aria-label="Previous testimonial"><Icon name="arrow" size={18} className="is-flipped" /></button>
+        <button type="button" onClick={() => step(1)} aria-label="Next testimonial"><Icon name="arrow" size={18} /></button>
+      </div>
+    </div>
+  );
+}
+
 export default function EarlySignal() {
   return (
     <section id="signal" className="section signal on-dark" aria-labelledby="signal-title">
@@ -58,29 +111,7 @@ export default function EarlySignal() {
           ))}
         </ul>
 
-        <div className="quotes">
-          <ul className="quotes__grid">
-            {signal.quotes.map((q, i) => (
-              <Reveal as="li" key={q.meta} delay={140 + i * 100} className="tcard">
-                <article className="tcard__inner">
-                  <div className="tcard__media frame">
-                    <Img name={q.image.name} alt={q.image.alt} sizes="(min-width: 992px) 28vw, 80vw" />
-                  </div>
-                  <div className="tcard__body">
-                    <Stars rating={q.rating ?? 5} />
-                    <blockquote>
-                      <p>{q.text}</p>
-                    </blockquote>
-                    <footer className="tcard__foot">
-                      <span className="tcard__who">{q.who}</span>
-                      <span className="tcard__meta mono">{q.meta}</span>
-                    </footer>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
+        <VideoQuotes quotes={signal.quotes} />
 
         <p className="fine signal__disc">{signal.disclaimer}</p>
       </div>
