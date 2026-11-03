@@ -63,3 +63,15 @@
 @media (prefers-reduced-motion: reduce) {
   .xc-story__img, .xc-mod, .xc-q { transition: none; }
 }
+
+/* Hero fits the first screen: the photo is capped to the screen height, type and index tightened.
+   Its parts animate in on load instead of waiting for a scroll trigger. */
+.xc-hero { padding-top: calc(var(--nav-h) + clamp(24px, 3vw, 48px)); padding-bottom: clamp(40px, 4vw, 64px); }
+.xc-hero .x-h1 { font-size: clamp(44px, 5.4vw, 88px); }
+.xc-hero__index { margin-top: clamp(20px, 2.4vw, 32px); }
+.xc-hero__index a { padding: 10px 0; font-size: 16px; }
+.xc-hero__media { aspect-ratio: auto; height: clamp(320px, calc(100svh - 170px), 600px); }
+.xc-in { animation: xc-rise .9s var(--ease-out) both; animation-delay: calc(.15s + var(--d) * .12s); }
+@keyframes xc-rise { from { opacity: 0; transform: translateY(18px); } }
+@media (max-width: 991.98px) { .xc-hero__media { height: auto; aspect-ratio: 16 / 11; } }
+@media (prefers-reduced-motion: reduce) { .xc-in { animation: none; } }

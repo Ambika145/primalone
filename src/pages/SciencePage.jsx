@@ -31,14 +31,14 @@ export default function SciencePage() {
         <div className="shell xc-hero__grid">
           <div>
             <SplitLines id="sci-title" as="h1" className="x-h1" lines={p.titleLines} accentLast />
-            <Reveal as="p" delay={120} className="x-lead">{p.sub}</Reveal>
-            <Reveal delay={200} className="xc-hero__index">
+            <p className="x-lead xc-in" style={{ '--d': 1 }}>{p.sub}</p>
+            <div className="xc-hero__index xc-in" style={{ '--d': 2 }}>
               {p.modules.map((m) => <a key={m.n} href={`#mod-${m.n}`}><span>{m.n}</span>{m.title}</a>)}
-            </Reveal>
+            </div>
           </div>
-          <Reveal className="xc-hero__media" aria-hidden="true">
+          <div className="xc-hero__media xc-in" style={{ '--d': 1 }} aria-hidden="true">
             <Img name={p.hero} alt="" sizes="(min-width: 992px) 42vw, 90vw" priority />
-          </Reveal>
+          </div>
         </div>
       </header>
 
@@ -49,7 +49,7 @@ export default function SciencePage() {
             <div className="xc-story__frame">
               {p.modules.map((m, i) => (
                 <div key={m.n} className={`xc-story__img ${i === active ? 'is-on' : ''}`}>
-                  <Img name={m.image} alt="" sizes="(min-width: 992px) 44vw, 0px" />
+                  <Img name={m.image} style={m.pos ? { objectPosition: m.pos } : undefined} alt="" sizes="(min-width: 992px) 44vw, 0px" />
                 </div>
               ))}
               <span className="xc-story__count">{p.modules[active].n} / {String(p.modules.length).padStart(2, '0')}</span>
@@ -59,7 +59,7 @@ export default function SciencePage() {
           <ol ref={listRef} className="xc-story__list">
             {p.modules.map((m, i) => (
               <li key={m.n} id={`mod-${m.n}`} data-i={i} className={`xc-mod ${i === active ? 'is-on' : ''}`}>
-                <div className="xc-mod__img"><Img name={m.image} alt="" sizes="90vw" /></div>
+                <div className="xc-mod__img"><Img name={m.image} style={m.pos ? { objectPosition: m.pos } : undefined} alt="" sizes="90vw" /></div>
                 <span className="xc-mod__n">{m.n}</span>
                 <h2 className="x-h2">{m.title}</h2>
                 <p className="x-body">{m.body}</p>

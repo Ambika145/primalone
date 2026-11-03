@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { journalPage } from '../data/pages.js';
 import Icon from '../components/ui/Icon.jsx';
 import { Img, Reveal, SplitLines } from '../components/ui/primitives.jsx';
-import { PageCta, readTime } from '../components/page/Inner.jsx';
+import { PageCta } from '../components/page/Inner.jsx';
 import '../components/page/Inner.css';
 import './JournalPage.css';
 
@@ -43,7 +43,6 @@ export default function JournalPage() {
                   <span className="xj-feature__flag">Featured</span>
                 </div>
                 <div className="xj-feature__copy">
-                  <span className="xj-meta">{featured.topic} · {readTime(featured.body)} min read</span>
                   <h2 className="x-h2">{featured.title}</h2>
                   <p>{featured.open}</p>
                   <span className="xj-read">Read the article <Icon name="arrow" size={16} /></span>
@@ -58,7 +57,6 @@ export default function JournalPage() {
                 <Reveal key={a.slug} delay={i * 90}>
                   <Link to={`/journal/${a.slug}`} className="xj-card">
                     <div className="xj-card__media"><Img name={a.image} alt="" sizes="(min-width: 992px) 30vw, (min-width: 576px) 46vw, 100vw" /></div>
-                    <span className="xj-meta">{a.topic} · {readTime(a.body)} min read</span>
                     <h3 className="x-h3">{a.title}</h3>
                     <p>{a.open}</p>
                     <span className="xj-read">Read <Icon name="arrow" size={15} /></span>

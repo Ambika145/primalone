@@ -325,13 +325,14 @@ export const footer = {
   payments: 'Payments: UPI · Cards · Net banking',
   disclaimer: '*These statements have not been evaluated by the Food and Drug Administration or equivalent authority. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not be used as a substitute for a varied diet.',
   legal: '© 2026 Primalone Nutrition Pvt Ltd',
-  // Social profiles: handles/URLs still to be supplied by the client ('#' until then).
   socialLine: 'Follow the sequence.',
+  // Social profiles
   socials: [
-    { id: 'instagram', label: 'Instagram', href: '#' },
-    { id: 'youtube', label: 'YouTube', href: '#' },
-    { id: 'facebook', label: 'Facebook', href: '#' },
+    { id: 'x', label: 'X', href: 'https://x.com/PrimalOneX' },
+    { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/primalone.in/' },
+    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/primalone/home/' },
   ],
+
 };
 
 export const formatINR = (n) => '₹' + n.toLocaleString('en-IN');

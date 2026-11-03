@@ -207,26 +207,36 @@ export default function ShopPage() {
       <section className="x-sec xs2-compare">
         <div className="shell">
           <SecHead title={p.compareTitle[0]} accent={p.compareTitle[1]} lead="Two products with two different jobs, at two different times of day." center />
-          {/* Mirrored face-off: Origin on the left, Restore on the right, the question in the middle */}
-          <Reveal className="xs3" role="table" aria-label="Origin and Restore compared">
-            <div className="xs3__row xs3__head" role="row">
-              <span role="columnheader" className="xs3__prod xs3__prod--origin">
-                <img src="/img/origin-turn-poster.webp" alt="" width="96" height="96" />
-                <b>Origin</b>
-              </span>
-              <span role="columnheader" className="xs3__vs"><span className="visually-hidden">Detail</span><i aria-hidden="true">vs</i></span>
-              <span role="columnheader" className="xs3__prod xs3__prod--restore">
-                <img src="/img/restore-turn-poster.webp" alt="" width="96" height="96" />
-                <b>Restore</b>
-              </span>
+          {/* Comparison card: questions on the left, Origin and Restore as two tinted lanes */}
+          <Reveal className="xs4" role="table" aria-label="Origin and Restore compared">
+            <div className="xs4__row xs4__head" role="row">
+              <span role="columnheader" className="xs4__k"><span className="visually-hidden">Detail</span></span>
+              {['origin', 'restore'].map((id) => (
+                <span key={id} role="columnheader" className={`xs4__cell xs4__cell--${id} xs4__prod`}>
+                  <img src={`/img/${id}-turn-poster.webp`} alt="" width="64" height="64" />
+                  <b>{products[id].name}</b>
+                </span>
+              ))}
             </div>
             {p.compare.map((r, i) => {
               const same = r.origin === r.restore;
               return (
-                <div key={r.k} className={`xs3__row ${same ? 'is-same' : ''}`} role="row" style={{ '--i': i }}>
-                  <span role="cell" className="xs3__val xs3__val--l">{same ? <span className="visually-hidden">{r.origin}</span> : r.origin}</span>
-                  <span role="rowheader" className="xs3__k"><span>{r.k}</span>{same && <em aria-hidden="true">{r.origin}</em>}</span>
-                  <span role="cell" className="xs3__val xs3__val--r">{same ? <span className="visually-hidden">{r.restore}</span> : r.restore}</span>
+                <div key={r.k} className={`xs4__row ${same ? 'is-same' : ''}`} role="row" style={{ '--i': i }}>
+                  <span role="rowheader" className="xs4__k">{r.k}</span>
+                  {same ? (
+                    <>
+                      <span role="cell" className="xs4__cell xs4__cell--origin xs4__cell--blank"><span className="visually-hidden">{r.origin}</span></span>
+                      <span role="cell" className="xs4__cell xs4__cell--restore xs4__cell--blank">
+                        <span className="visually-hidden">{r.restore}</span>
+                        <span className="xs4__never" aria-hidden="true">{r.origin}</span>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span role="cell" className="xs4__cell xs4__cell--origin">{r.origin}</span>
+                      <span role="cell" className="xs4__cell xs4__cell--restore">{r.restore}</span>
+                    </>
+                  )}
                 </div>
               );
             })}

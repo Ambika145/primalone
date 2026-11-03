@@ -26,10 +26,6 @@ export default function SequencePage() {
           <div>
             <SplitLines id="seq-title" as="h1" className="x-h1" lines={p.titleLines} accentLast />
             <Reveal as="p" delay={120} className="x-lead">{p.sub}</Reveal>
-            <Reveal delay={200} className="xq-hero__legend">
-              <span><i className="xq-dot xq-dot--am" />Morning · Origin</span>
-              <span><i className="xq-dot xq-dot--pm" />Evening · Restore, optional</span>
-            </Reveal>
           </div>
           <div className="xq-hero__art" aria-hidden="true">
             <Reveal className="xq-hero__photo xq-hero__photo--am"><Img name={p.morning} alt="" sizes="(min-width: 992px) 30vw, 70vw" priority /></Reveal>

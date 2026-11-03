@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { journalPage } from '../data/pages.js';
 import Icon from '../components/ui/Icon.jsx';
 import { Img, Reveal } from '../components/ui/primitives.jsx';
-import { PageCta, readTime } from '../components/page/Inner.jsx';
+import { PageCta } from '../components/page/Inner.jsx';
 import '../components/page/Inner.css';
 import './ArticlePage.css';
 
@@ -45,7 +45,6 @@ export default function ArticlePage() {
         <Img name={article.image} alt="" sizes="100vw" priority className="xr-hero__img" />
         <div className="shell xr-hero__copy">
           <Link to="/journal" className="xr-back"><Icon name="arrow" size={15} />Journal</Link>
-          <span className="xr-meta">{article.topic} · {readTime(article.body)} min read</span>
           <h1 className="x-h1 xr-title">{article.title}</h1>
         </div>
       </header>
@@ -53,8 +52,6 @@ export default function ArticlePage() {
       <section className="xr-body" id="article-body">
         <div className="shell xr-body__grid">
           <aside className="xr-aside">
-            <span className="xr-aside__label">In this article</span>
-            <p>{article.topic}</p>
             <span className="xr-aside__label">Products</span>
             <p><Link to="/products/origin">Origin</Link> · <Link to="/products/restore">Restore</Link></p>
           </aside>
@@ -72,7 +69,6 @@ export default function ArticlePage() {
             {others.map((a) => (
               <Link key={a.slug} to={`/journal/${a.slug}`} className="xr-mcard">
                 <div className="xr-mcard__img"><Img name={a.image} alt="" sizes="(min-width: 992px) 26vw, 80vw" /></div>
-                <span>{a.topic}</span>
                 <b>{a.title}</b>
               </Link>
             ))}

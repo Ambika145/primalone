@@ -11,7 +11,6 @@
 .xj-chips button.is-on { background: var(--forest); color: var(--cream); box-shadow: none; }
 
 .xj-body { padding-bottom: clamp(56px, 7vw, 104px); }
-.xj-meta { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--green); }
 .xj-read { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; }
 .xj-read .icon { transition: translate .3s var(--ease-out); }
 
