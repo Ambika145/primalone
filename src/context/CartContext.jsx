@@ -1,6 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bundle, products, promoCodes } from '../data/content.js';
+import { useAuth } from './AuthContext.jsx';
+import { loadUserCart, saveUserCart } from '../services/store.js';
 
 const CartContext = createContext(null);
 const STORAGE_KEY = 'primalone-cart';
@@ -36,6 +38,33 @@ export function CartProvider({ children }) {
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(lines)); } catch { /* storage unavailable */ }
   }, [lines]);
+
+  // The cart follows the account: signing in merges what was added as a guest into the saved cart,
+  // changes are saved to the account while signed in, and signing out empties this device's cart.
+  const { user, ready } = useAuth();
+  const synced = useRef(null);   // the user id whose cart is loaded, once merged
+  useEffect(() => {
+    if (!ready) return;
+    const id = user?.id || null;
+    if (id === synced.current) return;
+    if (!id) { if (synced.current) setLines([]); synced.current = null; return; }
+    loadUserCart().then((saved) => {
+      setLines((guest) => {
+        const merged = saved.filter((l) => products[l.product]).map((l) => ({ ...l }));
+        guest.forEach((g) => {
+          const m = merged.find((l) => l.product === g.product && l.days === g.days);
+          if (m) m.qty = Math.min(9, Math.max(m.qty, g.qty)); else merged.push({ ...g });
+        });
+        return merged;
+      });
+      synced.current = id;
+    });
+  }, [user, ready]);
+  useEffect(() => {
+    if (user && synced.current === user.id) saveUserCart(lines);
+  }, [lines, user]);
+
+  const clear = useCallback(() => { setLines([]); setPromo(null); }, []);
 
   const add = useCallback((product, days) => {
     setLines((prev) => {
@@ -82,10 +111,10 @@ export function CartProvider({ children }) {
       discount: bundleOff + promoOff,
       total: subtotal - bundleOff - promoOff,
       applyPromo, clearPromo,
-      open, setOpen, add, setQty,
+      open, setOpen, add, setQty, clear,
       selected, setSelected, highlight, goToProduct,
     };
-  }, [lines, open, add, setQty, selected, highlight, goToProduct, promo, applyPromo, clearPromo]);
+  }, [lines, open, add, setQty, clear, selected, highlight, goToProduct, promo, applyPromo, clearPromo]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

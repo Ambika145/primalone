@@ -311,6 +311,15 @@ export const aboutPage = {
     'Nutrition should evolve as you do, starting with clarity.',
   ],
   legal: 'Primalone Nutrition Pvt Ltd. Wave 1 products: Origin and Restore.',
+  // Founders, from the investor deck
+  founders: {
+    why: 'One of the founders lost his grandfather to Type 2 diabetes and years of unmeasured nutritional neglect. PrimalOne is the protocol he never had.',
+    whyNote: 'Science-backed nutrition for Indian realities: deficiencies, stress, pollution and urban life.',
+    people: [
+      { id: 'rakesh', name: 'Rakesh Kumar', role: 'Founder & CEO', focus: 'Leads product, protocol and tech.', image: '/img/founder-rakesh.webp', w: 387, h: 714 },
+      { id: 'yash', name: 'Yash Gandhi', role: 'Co-Founder & CMO', focus: 'Leads brand, content and growth.', image: '/img/founder-yash.webp', w: 384, h: 702 },
+    ],
+  },
 };
 
 // FAQs (shown on the Help & contact page): every question from the homepage and the old FAQ page, grouped. Answers repeat facts
@@ -504,6 +513,15 @@ export const accountPage = {
     { q: 'Which payment methods do you accept?', a: 'UPI, cards and net banking. We do not offer cash on delivery.' },
   ],
 };
+
+// States and union territories, for delivery addresses
+export const indianStates = [
+  'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
+  'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir',
+  'Jharkhand', 'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
+  'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+  'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+];
 
 export const checkoutPage = {
   payments: [

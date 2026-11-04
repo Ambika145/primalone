@@ -24,6 +24,9 @@
   flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px;
   background: #e1ecd3; color: var(--forest); transition: background .3s, color .3s, transform .4s var(--ease-out);
 }
+.xs2-trust__copy { display: grid; gap: 3px; min-width: 0; }
+.xs2-trust__copy b { font-size: 15px; font-weight: 700; color: var(--forest); }
+.xs2-trust__copy small { font-size: 13.5px; font-weight: 500; line-height: 1.4; color: var(--muted); }
 .xs2-trust li:hover .xs2-trust__icon { background: var(--forest); color: var(--cream); transform: rotate(-6deg) scale(1.05); }
 
 /* ---- Product cards ---- */
@@ -214,6 +217,11 @@
 }
 
 @media (max-width: 575.98px) {
-  .xs2-trust li { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; font-size: 13.5px; }
+  .xs2-trust li { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; }
+  .xs2-trust__copy b { font-size: 14.5px; }
+  .xs2-trust__copy small { font-size: 13px; }
   .xs2-trust__icon { width: 38px; height: 38px; border-radius: 12px; }
 }
+
+/* Comparison follows the product cards directly, so it needs less space above */
+.xs2-compare { padding-top: clamp(16px, 2vw, 32px); }

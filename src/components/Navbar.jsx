@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { siteNav, utilityNav } from '../data/pages.js';
 import { products, bundle } from '../data/content.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import Icon from './ui/Icon.jsx';
 import { Button } from './ui/primitives.jsx';
 import './Navbar.css';
@@ -59,8 +60,10 @@ function ShopMenu() {
   );
 }
 
-// "Sign in | Cart" pill (after seed.com). Sign in opens a small email step that continues on /account.
+// "Sign in | Cart" pill (after seed.com). Signed out, Sign in opens a small email step that continues
+// on the sign-in page; signed in, it shows the customer's first name and links to their account.
 function AccountPill({ count, bump, onCart }) {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const wrapRef = useRef(null);
@@ -80,16 +83,23 @@ function AccountPill({ count, bump, onCart }) {
 
   const submit = (e) => {
     e.preventDefault();
-    navigate('/account', { state: { email } });
+    navigate('/account/sign-in', { state: { email } });
   };
 
   return (
     <div ref={wrapRef} className={`acct ${open ? 'is-open' : ''}`}>
       <div className="acct__pill">
-        <button type="button" className="acct__signin" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="acct-pop">
-          <Icon name="user" size={18} className="acct__icon" />
-          <span className="acct__label">Sign in</span>
-        </button>
+        {user ? (
+          <Link to="/account" className="acct__signin" aria-label={`Your account, ${user.name}`}>
+            <Icon name="user" size={18} className="acct__icon" />
+            <span className="acct__label">{user.name.split(' ')[0]}</span>
+          </Link>
+        ) : (
+          <button type="button" className="acct__signin" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="acct-pop">
+            <Icon name="user" size={18} className="acct__icon" />
+            <span className="acct__label">Sign in</span>
+          </button>
+        )}
         <button type="button" className={`acct__cart ${bump ? 'is-bump' : ''}`} onClick={onCart}
           aria-label={`Open cart, ${count} ${count === 1 ? 'item' : 'items'}`}>
           <span className="acct__label">Cart</span>
@@ -97,17 +107,17 @@ function AccountPill({ count, bump, onCart }) {
           {count > 0 && <span className="site-nav__count" aria-hidden="true">{count}</span>}
         </button>
       </div>
-      <form id="acct-pop" className="acct__pop" onSubmit={submit} aria-label="Sign in">
+      {!user && <form id="acct-pop" className="acct__pop" onSubmit={submit} aria-label="Sign in">
         <p className="acct__title">Welcome back</p>
         <p className="acct__sub">Enter your email to access your account and orders.</p>
         <label className="visually-hidden" htmlFor="acct-email">Email</label>
         <input id="acct-email" type="email" required autoComplete="email" placeholder="you@example.com"
           value={email} onChange={(e) => setEmail(e.target.value)} />
         <div className="acct__row">
-          <Link to="/account" state={{ mode: 'signup' }} className="acct__alt">New here? Create an account</Link>
+          <Link to="/account/sign-in" state={{ mode: 'signup' }} className="acct__alt">New here? Create an account</Link>
           <button type="submit" className="acct__go">Continue</button>
         </div>
-      </form>
+      </form>}
     </div>
   );
 }
@@ -115,13 +125,14 @@ function AccountPill({ count, bump, onCart }) {
 const mobileLinks = [
   ...siteNav.flatMap((l) => (l.children ? l.children : [l])),
   ...utilityNav,
-  { label: 'Sign in / Account', href: '/account' },
 ];
 
 export default function Navbar() {
   const { scrolled, hidden } = useScrollState();
   const { count, setOpen } = useCart();
   const { pathname } = useLocation();
+  const { user } = useAuth();
+  const menuLinks = [...mobileLinks, user ? { label: 'My account', href: '/account' } : { label: 'Sign in / Account', href: '/account/sign-in' }];
   const [menuOpen, setMenuOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [bump, setBump] = useState(false);
@@ -142,6 +153,8 @@ export default function Navbar() {
   useEffect(() => {
     setMenuOpen(false);
     setShopOpen(false);
+    // a clicked Shop link keeps focus after navigating, which would hold the menu open
+    if (document.activeElement?.closest('.site-nav__drop')) document.activeElement.blur();
   }, [pathname]);
 
   useEffect(() => {
@@ -182,7 +195,7 @@ export default function Navbar() {
                 <NavLink
                   to={link.href}
                   className={({ isActive }) => (isActive || pathname.startsWith('/products') ? 'is-active' : undefined)}
-                  onFocus={() => setShopOpen(true)}
+                  onFocus={(e) => e.currentTarget.matches(':focus-visible') && setShopOpen(true)}
                 >
                   {link.label}
                 </NavLink>
@@ -218,7 +231,7 @@ export default function Navbar() {
         aria-hidden={!menuOpen} inert={menuOpen ? undefined : ''}>
         <nav className="shell mobile-menu__inner" aria-label="Mobile">
           <ul>
-            {mobileLinks.map((link, i) => (
+            {menuLinks.map((link, i) => (
               <li key={link.href} style={{ '--i': i }}>
                 <Link to={link.href} onClick={() => setMenuOpen(false)}>
                   <span className="mono" aria-hidden="true">0{i + 1}</span>{link.label}
@@ -226,7 +239,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="mobile-menu__foot" style={{ '--i': mobileLinks.length }}>
+          <div className="mobile-menu__foot" style={{ '--i': menuLinks.length }}>
             <Button href="/products/origin" variant="light" onClick={() => setMenuOpen(false)}>Shop Origin</Button>
             <p className="mono">Sequence, don't stack.</p>
           </div>

@@ -12,11 +12,12 @@ import './ShopPage.css';
 
 const afterBundle = (n) => Math.round(n * (1 - bundle.pct / 100));
 const priceOf = (id, days) => products[id].sizes.find((s) => s.days === days);
+// In shopping order: what's inside, how you buy, how you pay, when it ships
 const trust = [
-  { icon: 'tag', text: 'One-time purchase, no commitment' },
-  { icon: 'truck', text: 'Orders process in 1–2 business days' },
-  { icon: 'card', text: 'UPI · Cards · Net banking' },
-  { icon: 'leaf', text: 'No proprietary blends' },
+  { icon: 'leaf', title: 'Clear formulas', text: 'No proprietary blends' },
+  { icon: 'tag', title: 'One-time purchase', text: 'No subscription or commitment' },
+  { icon: 'card', title: 'Easy payment', text: 'UPI, cards and net banking' },
+  { icon: 'truck', title: 'Quick processing', text: 'Within 1–2 business days' },
 ];
 
 // Two-option pack switch (30 / 15 days)
@@ -183,9 +184,9 @@ export default function ShopPage() {
         <div className="shell">
           <Reveal delay={200} as="ul" className="xs2-trust">
             {trust.map((t, i) => (
-              <li key={t.text} style={{ '--i': i }}>
+              <li key={t.title} style={{ '--i': i }}>
                 <span className="xs2-trust__icon"><Icon name={t.icon} size={20} /></span>
-                <span>{t.text}</span>
+                <span className="xs2-trust__copy"><b>{t.title}</b><small>{t.text}</small></span>
               </li>
             ))}
           </Reveal>
@@ -200,8 +201,6 @@ export default function ShopPage() {
           <BundleCard delay={200} />
         </div>
       </section>
-
-      <Builder />
 
       {/* ---- Comparison ---- */}
       <section className="x-sec xs2-compare">
@@ -243,6 +242,8 @@ export default function ShopPage() {
           </Reveal>
         </div>
       </section>
+
+      <Builder />
 
       {/* ---- Quality ---- */}
       <section className="x-sec--sand xs2-quality">

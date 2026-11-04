@@ -13,7 +13,7 @@
 }
 .day-card {
   position: relative; overflow: hidden; border-radius: var(--radius-lg);
-  aspect-ratio: 3 / 2.1; color: #fff; isolation: isolate;
+  aspect-ratio: 3 / 2.6; color: #fff; isolation: isolate;
 }
 .day-card__img { position: absolute; inset: 0; z-index: -1; }
 .day-card__img img { transition: scale 1.4s var(--ease-out); }
@@ -35,7 +35,7 @@
 }
 .day-card__title {
   font-family: var(--display); font-weight: 600; text-transform: uppercase;
-  font-size: clamp(24px, 2.5vw, 40px); line-height: 1.05; letter-spacing: .01em;
+  font-size: clamp(26px, 2.7vw, 44px); line-height: 1.05; letter-spacing: .01em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, .25);
 }
 .day-card__opt {
@@ -44,7 +44,7 @@
 }
 /* the line under each title appears on hover / focus; always shown on touch screens */
 .day-card__body {
-  max-width: 30ch; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, .92);
+  max-width: 30ch; font-size: 16px; line-height: 1.5; color: rgba(255, 255, 255, .92);
   opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease-out), transform .6s var(--ease-out);
 }
 .day-card:hover .day-card__body { opacity: 1; transform: none; }
@@ -57,7 +57,7 @@
     margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
   }
   .day-cards::-webkit-scrollbar { display: none; }
-  .day-card { flex: 0 0 min(80%, 420px); aspect-ratio: 4 / 4.4; scroll-snap-align: start; }
+  .day-card { flex: 0 0 min(86%, 460px); aspect-ratio: 4 / 4.8; scroll-snap-align: start; }
 }
 
 @media (prefers-reduced-motion: reduce) {

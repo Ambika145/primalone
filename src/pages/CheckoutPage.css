@@ -63,3 +63,28 @@
 @media (max-width: 575.98px) {
   .co-row--3, .co-pay { grid-template-columns: 1fr; }
 }
+
+/* Account step: sign-in prompt, who is checking out, saved addresses */
+.co-signin { display: grid; grid-template-columns: auto 1fr; gap: 14px 16px; padding: 22px; border-radius: 22px; background: var(--sand); box-shadow: inset 0 0 0 1px var(--line); }
+.co-signin__icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #fff; color: var(--forest); }
+.co-signin b { font-size: 17px; color: var(--ink); }
+.co-signin p { margin-top: 4px; color: var(--muted); font-size: 14.5px; }
+.co-signin__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; }
+.co-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; border-radius: 999px; background: var(--forest); color: var(--cream); font-weight: 600; font-size: 15px; transition: background .25s; }
+.co-btn:hover { background: var(--green); }
+.co-btn--ghost { background: #fff; color: var(--forest); box-shadow: inset 0 0 0 1.5px var(--line); }
+.co-btn--ghost:hover { background: #fff; box-shadow: inset 0 0 0 1.5px var(--forest); }
+.co-who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 15px; color: var(--muted); }
+.co-who b { color: var(--ink); }
+.co-who button { margin-left: auto; padding: 0; border: 0; background: none; font-size: 14px; font-weight: 600; color: var(--forest); text-decoration: underline; text-underline-offset: 3px; }
+.co-addrs { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.co-addr { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; padding: 16px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); cursor: pointer; transition: box-shadow .25s; }
+.co-addr:hover { box-shadow: inset 0 0 0 1px var(--forest); }
+.co-addr.is-on { box-shadow: inset 0 0 0 2px var(--forest); }
+.co-addr input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--forest); }
+.co-add { display: inline-flex; align-items: center; gap: 8px; justify-self: start; margin-top: 4px; padding: 10px 16px; border: 1.5px dashed var(--line); border-radius: 14px; background: none; font-size: 14.5px; font-weight: 600; color: var(--forest); transition: border-color .25s, background .25s; }
+.co-add:hover { border-color: var(--forest); background: #fff; }
+.co-newaddr { padding: 18px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.co-muted { color: var(--muted); }
+.co-error { margin-bottom: 12px; font-size: 14px; font-weight: 600; color: #9b3b2e; }
+.co-steps { display: grid; gap: 26px; }

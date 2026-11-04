@@ -30,7 +30,10 @@ const nightHeroRoutes = new Set(['/products/restore', '/science']);
 function ScrollManager() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    const base = titles[pathname] || (pathname.startsWith('/journal/') ? 'Journal | PrimalOne' : 'PrimalOne');
+    const base = titles[pathname]
+      || (pathname.startsWith('/journal/') ? 'Journal | PrimalOne'
+        : pathname === '/account/sign-in' ? 'Sign in | PrimalOne'
+          : pathname.startsWith('/account') ? 'Your account | PrimalOne' : 'PrimalOne');
     document.title = base;
 
     // Home manages its own day/night swap in Hero; other routes set a stable tone.

@@ -130,7 +130,7 @@ html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill
 /* a bridge over the gap so the pointer can travel from "Shop" into the panel */
 .shop-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
 .site-nav__drop.is-open .shop-menu,
-.site-nav__drop:focus-within .shop-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+.site-nav__drop:has(:focus-visible) .shop-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
 .shop-menu ul { display: grid; gap: 6px; }
 .site-nav__links .shop-menu a { opacity: 1; color: var(--cream); padding: 0; }
 .site-nav__links .shop-menu a::after { display: none; }
@@ -217,3 +217,6 @@ html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__cta { --pill
 
 /* Utility links (FAQ · Contact) stay readable over a dark hero */
 html[data-hero-tone='night'] .site-nav:not(.is-scrolled) .site-nav__utility a { color: var(--cream); }
+
+/* Bigger tap area for the logo link without changing its look */
+.site-nav__logo { padding-block: 10px; margin-block: -10px; }

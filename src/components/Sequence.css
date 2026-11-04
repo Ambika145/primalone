@@ -1,5 +1,5 @@
 /* Intro: a single-line heading and the description, on the same sand as the Origin panel */
-.sequence__intro { padding-top: clamp(72px, 8vw, 120px); padding-bottom: clamp(8px, 2vw, 24px); background: var(--sand); }
+.sequence__intro { padding-top: clamp(72px, 8vw, 120px); padding-bottom: 0; background: var(--sand); }
 .sequence__title {
   font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.035em;
   font-size: clamp(30px, 3.4vw, 54px); line-height: 1.1;
@@ -8,10 +8,10 @@
 .sequence__lead { margin-top: clamp(16px, 1.6vw, 22px); max-width: none; }
 
 /* ---- Product track: Origin and Restore side by side ---- */
-/* Phones / reduced motion: the panels simply stack */
+/* Phones / reduced motion: the panels sit side by side in a swipeable rail */
 .pblock {
   position: relative; overflow: hidden;
-  padding-block: clamp(56px, 9vw, 120px);
+  padding-block: clamp(36px, 7vw, 96px) clamp(40px, 7vw, 96px);
   scroll-margin-top: 40px;
 }
 .pblock--morning { background: var(--sand); }
@@ -32,8 +32,8 @@
 }
 .ptrack--horizontal .pblock {
   flex: 0 0 100vw; height: 100%;
-  padding-block: clamp(84px, 11vh, 120px) clamp(28px, 5vh, 56px);
-  display: flex; align-items: center;
+  padding-block: clamp(84px, 12vh, 104px) 96px;
+  display: flex; align-items: flex-start;
 }
 .pblock__shell { position: relative; z-index: 1; width: 100%; }
 
@@ -135,4 +135,58 @@
   .rise > span, .pblock__text .pblock__title, .pblock__text .pblock__para, .reveal .contains li { transform: none; opacity: 1; transition: none; }
   .pblock__contains .contains li { background-size: 100% 1px; transition: none; }
   .pblock__ribbon span { transform: none !important; }
+}
+
+/* Swipeable rail on phones and with reduced motion */
+.ptrack:not(.ptrack--horizontal) .ptrack__rail {
+  display: flex; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.ptrack:not(.ptrack--horizontal) .ptrack__rail::-webkit-scrollbar { display: none; }
+.ptrack:not(.ptrack--horizontal) .pblock { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.ptrack:not(.ptrack--horizontal) .ptrack__pin { position: relative; }
+
+/* Shop now under each product's copy */
+.pblock__shop { margin-top: 26px; }
+.pblock__text .pblock__shop { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease-out), transform 1s var(--ease-out), background .3s; }
+.pblock__text.is-in .pblock__shop { opacity: 1; transform: none; transition-delay: .85s, .85s, 0s; }
+
+/* Manual slider controls */
+.pnav {
+  position: absolute; left: 50%; bottom: clamp(18px, 3.4vh, 32px); translate: -50% 0; z-index: 3;
+  display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 999px;
+  background: rgba(251, 248, 242, .82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 0 0 1px rgba(17, 26, 20, .08), 0 18px 40px -20px rgba(14, 27, 18, .45);
+  transition: background .5s, box-shadow .5s;
+}
+.pnav.is-night { background: rgba(14, 27, 18, .72); box-shadow: 0 0 0 1px var(--line-dark), 0 18px 40px -20px rgba(0, 0, 0, .7); }
+.pnav__arrow {
+  display: grid; place-items: center; width: 42px; height: 42px; border: 0; border-radius: 50%;
+  background: var(--forest); color: var(--cream); transition: background .3s, color .3s, opacity .3s, transform .3s var(--ease-out);
+}
+.pnav__prev .icon { rotate: 180deg; }
+.pnav__arrow:hover:not(:disabled) { transform: scale(1.06); }
+.pnav__arrow:disabled { opacity: .3; cursor: default; }
+.pnav.is-night .pnav__arrow { background: var(--gold-soft); color: var(--forest); }
+.pnav__steps { position: relative; display: grid; grid-template-columns: 1fr 1fr; }
+.pnav__thumb {
+  position: absolute; inset: 0 auto 0 0; width: 50%; border-radius: 999px; background: #fff;
+  box-shadow: 0 4px 12px -6px rgba(14, 27, 18, .4);
+  transform: translateX(calc(var(--at) * 100%)); transition: transform .55s var(--ease-out), background .5s;
+}
+.pnav.is-night .pnav__thumb { background: rgba(246, 241, 231, .14); box-shadow: none; }
+.pnav__steps button {
+  position: relative; z-index: 1; min-width: 92px; height: 42px; padding: 0 18px; border: 0; background: none;
+  font-size: 14.5px; font-weight: 600; color: var(--muted); transition: color .3s;
+}
+.pnav__steps button.is-on { color: var(--forest); }
+.pnav.is-night .pnav__steps button { color: var(--muted-dark); }
+.pnav.is-night .pnav__steps button.is-on { color: var(--cream); }
+
+/* Phones: the controls sit above the rail, under the intro (the sticky buy bar owns the screen bottom) */
+.ptrack:not(.ptrack--horizontal) .ptrack__pin { display: flex; flex-direction: column; background: var(--sand); }
+.ptrack:not(.ptrack--horizontal) .pnav { order: -1; position: relative; left: auto; bottom: auto; translate: none; width: max-content; margin: 24px var(--gutter) 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pblock__text .pblock__shop { opacity: 1; transform: none; transition: none; }
+  .pnav__thumb { transition: none; }
 }

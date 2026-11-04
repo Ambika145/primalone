@@ -316,14 +316,14 @@ export const footer = {
   columns: [
     { title: 'Shop', links: [{ label: 'Origin', href: '/products/origin' }, { label: 'Restore', href: '/products/restore' }] },
     { title: 'Learn', links: [{ label: 'Sequence', href: '/sequence' }, { label: 'Science', href: '/science' }, { label: 'Journal', href: '/journal' }] },
-    { title: 'Company', links: [{ label: 'About', href: '/about' }, { label: 'Contact', href: '/contact' }, { label: 'Shipping & Returns', href: '/shipping' }, { label: 'Privacy', href: '/privacy' }, { label: 'Terms', href: '/terms' }] },
+    { title: 'Company', links: [{ label: 'About', href: '/about' }, { label: 'Contact', href: '/contact' }, { label: 'Shipping & Returns', href: '/shipping' }, { label: 'Primal Healthcare', href: '#' }] },
   ],
   // Client brief: never name the contract manufacturer anywhere on the site.
   manufacturer: 'Manufactured in a facility certified to FSSAI, WHO-GMP, FSSC 22000, and NSF standards aligned with U.S. cGMP (21 CFR Part 111). The manufacturing site is U.S. FDA registered. Products are tested in an NABL-accredited laboratory.',
-  fssai: 'FSSAI Lic. No.',
-  // No cash on delivery.
-  payments: 'Payments: UPI · Cards · Net banking',
-  disclaimer: '*These statements have not been evaluated by the Food and Drug Administration or equivalent authority. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not be used as a substitute for a varied diet.',
+  // No cash on delivery. Shown as logo badges.
+  payments: ['upi', 'visa', 'mastercard', 'rupay', 'netbanking'],
+  // Site credit
+  credit: { label: 'Purviewdigital', logo: '/img/purviewdigital-logo.svg', href: 'https://purviewdigital.com/' },
   legal: '© 2026 Primalone Nutrition Pvt Ltd',
   socialLine: 'Follow the sequence.',
   // Social profiles

@@ -27,6 +27,33 @@ function Highlight({ text, words }) {
   return parts.map((part, i) => (words.includes(part) ? <mark key={i} className="xa-hl">{part}</mark> : part));
 }
 
+// A founder card: big outlined initials behind, the cutout rising out of the card's right side,
+// name and role on the left. The portrait and initials lean apart as the pointer moves.
+function FounderCard({ f, i }) {
+  const initials = f.name.split(' ').map((w) => w[0]).join('');
+  const lean = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3));
+    e.currentTarget.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3));
+  };
+  const rest = (e) => { e.currentTarget.style.setProperty('--mx', 0); e.currentTarget.style.setProperty('--my', 0); };
+  return (
+    <Reveal as="article" delay={i * 160} className={`xa-fd xa-fd--${f.id}`} onPointerMove={lean} onPointerLeave={rest}>
+      <div className="xa-fd__stage" aria-hidden="true">
+        <span className="xa-fd__initials">{initials}</span>
+        <span className="xa-fd__glow" />
+        <img className="xa-fd__img" src={f.image} alt="" width={f.w} height={f.h} loading="lazy" />
+      </div>
+      <div className="xa-fd__copy">
+        <p className="xa-fd__role">{f.role}</p>
+        <h3 className="xa-fd__name">{f.name}</h3>
+        <span className="xa-fd__rule" aria-hidden="true" />
+        <p className="xa-fd__focus">{f.focus}</p>
+      </div>
+    </Reveal>
+  );
+}
+
 export default function AboutPage() {
   const p = aboutPage;
   const cut = p.story.body.indexOf(SPLIT);
@@ -150,6 +177,25 @@ export default function AboutPage() {
                 </li>
               ))}
             </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- Founders: the heading beside why it exists, then the two founders ---- */}
+      <section className="x-sec x-sec--sand xa-team">
+        <div className="shell">
+          <div className="xa-team__head">
+            <Reveal>
+              <h2 className="x-h2">The people <span className="is-accent">behind it.</span></h2>
+              <p className="xa-team__lead">Two founders, one reason to start.</p>
+            </Reveal>
+            <Reveal delay={120} as="blockquote" className="xa-why">
+              <p className="xa-why__quote">{p.founders.why}</p>
+              <p className="xa-why__note">{p.founders.whyNote}</p>
+            </Reveal>
+          </div>
+          <div className="xa-team__grid">
+            {p.founders.people.map((f, i) => <FounderCard key={f.id} f={f} i={i} />)}
           </div>
         </div>
       </section>
