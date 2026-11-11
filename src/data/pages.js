@@ -31,7 +31,7 @@ export const shopPage = {
       id: 'origin',
       href: '/products/origin',
       name: 'Origin',
-      descriptor: 'Forever daily essentials · Morning',
+      descriptor: 'Daily Essentials · Morning',
       copy: 'One scoop when breakfast is eaten. Omega-3s, D3+K2, minerals, CoQ10, greens, probiotic.',
       image: 'origin-stir',
       tone: 'morning',
@@ -42,7 +42,7 @@ export const shopPage = {
       id: 'restore',
       href: '/products/restore',
       name: 'Restore',
-      descriptor: 'Evening recovery · Optional',
+      descriptor: 'Night Recovery · Optional',
       copy: 'Glycine, NAC, magnesium, KSM-66, myo-inositol. Taken at night if you want the evening covered.',
       image: 'restore-evening',
       tone: 'night',
@@ -67,12 +67,25 @@ export const shopPage = {
 
 export const originPage = {
   name: 'Origin',
-  descriptor: 'Forever daily essentials',
+  descriptor: 'Daily Essentials',
   oneLine: 'The morning scoop when breakfast is eaten.',
   prices: products.origin.sizes,
   primaryCta: 'Subscribe',
   secondaryCta: 'One-time purchase',
-  whatItIs: 'Origin is the daily nutrition floor for mornings when you eat breakfast. It is not a protein shake and not a meal replacement. It supplies the essentials most people miss even when they eat well: omega-3 fatty acids (EPA and DHA), vitamin D3 with K2, a modest mineral floor, CoQ10, greens, prebiotic fibre and a probiotic. One scoop. Every morning you eat. Forever, not for 30 days.',
+  whatItIs: 'Origin is the everyday foundation for adults who already eat breakfast. One scoop in the morning supports the systems that run on micronutrients, healthy fats, gut function, and cellular energy: the shared layer almost everyone needs, every day.',
+  // What Origin supports: a heading and one line for each
+  supportsTitle: ['What Origin', 'supports.'],
+  supports: [
+    { t: 'Energy & cellular function', d: 'Helps maintain the micronutrient floor that supports normal energy metabolism and cellular activity.' },
+    { t: 'Immune readiness', d: 'Contributes to the nutritional baseline the immune system uses daily.' },
+    { t: 'Digestive comfort & gut environment', d: 'Includes elements that support normal digestion and a balanced gut.' },
+    { t: 'Bone, muscle & structural support', d: 'Supplies key minerals and co-factors involved in everyday structural maintenance.' },
+    { t: 'Brain & nervous system', d: 'Provides nutrients involved in normal cognitive function and nervous-system activity.' },
+    { t: 'Heart & circulation', d: 'Supports the nutritional needs linked to cardiovascular health markers.' },
+    { t: 'Skin, hair & overall vitality', d: 'Contributes to the micronutrient status that shows up in everyday appearance and recovery.' },
+    { t: 'Daily resilience', d: 'Helps close common gaps that appear even in reasonably good diets (vitamin D, omega-3, certain minerals, fibre-related compounds).' },
+  ],
+  whoFor: ['Adults 18+ who eat breakfast and want a single, reliable morning scoop instead of multiple bottles.'],
   ingredients: [
     'Omega-3s (EPA + DHA)',
     'Vitamin D3 + Vitamin K2',
@@ -82,19 +95,21 @@ export const originPage = {
     'Prebiotic fibre (PHGG)',
     'Multi-strain probiotic',
   ],
-  howToUse: 'Mix one scoop (20 g) in water or a smoothie after breakfast. Take every morning you eat. If you are sensitive, do not take on an empty stomach. Restore, if used, is taken in the evening, never at the same time.',
+  howToUse: 'Mix one serving with water or a cold beverage in the morning. Take it as your daily essentials. It is designed to stand alone; it does not need to be stacked with other morning products.',
   isNot: [
     'Not a 30-day primer or temporary starter phase.',
     'Not a protein meal replacement.',
     'Not designed to be stacked with other morning powders.',
   ],
+  isNotLead: 'It is not positioned as a short-term primer or a meal replacement.',
   // What Origin is instead, one per line above (wording from the page's own copy)
   isInstead: [
     'Forever daily essentials.',
     'It sits with breakfast. It is not the meal.',
     'One scoop covers the morning floor.',
   ],
-  whyExists: 'Most “all-in-one” powders try to replace everything in one scoop. Origin does the opposite. It covers the morning floor so you do not need a cabinet of separate bottles for the basics. It assumes you eat breakfast. It does not try to be your meal. The goal is clarity, not complexity.',
+  whyTitle: 'Why it matters long-term',
+  whyExists: 'Most people do not stay perfectly consistent with food quality, travel, work stress, or seasonal changes. Origin is built as the constant layer that stays in the routine for years, not weeks. It supports the systems that quietly affect energy, recovery, immunity, and how you feel day to day.',
   // Only questions the page does not already answer above
   faq: [
     { q: 'What if I skip breakfast?', a: 'Origin is designed for mornings when breakfast is eaten. If the scoop is your meal, this is not the right product for that day.' },
@@ -103,7 +118,7 @@ export const originPage = {
   ],
   disclaimer: 'These statements have not been evaluated by the Food and Drug Administration or equivalent authority. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not be used as a substitute for a varied diet.',
   // Product page layout: gallery (turning jar first), quick facts, the ritual in three steps
-  tag: 'Morning · Daily',
+  tag: 'Daily Essentials',
   scrub: '/video/origin-scrub.mp4',
   gallery: [
     { name: 'origin-jar', alt: 'The green Origin jar with its walnut lid beside a scoop of powder' },
@@ -139,11 +154,25 @@ export const originPage = {
 
 export const restorePage = {
   name: 'Restore',
-  descriptor: 'Evening recovery',
+  descriptor: 'Night Recovery',
   oneLine: 'The optional night. Glycine, NAC, magnesium and ashwagandha.',
   prices: products.restore.sizes,
   primaryCta: 'Add to evening routine',
-  whatItIs: 'Restore is an evening formula for people who want recovery support at the end of the day. It is not a sleep drug and not a sedative. It combines glycine, N-acetyl cysteine (NAC), magnesium, KSM-66 ashwagandha and myo-inositol. Take it if you want the night covered. Skip it if you do not. It is not required with Origin.',
+  whatItIs: 'Restore is the night companion for people who want support around wind-down, recovery, and overnight repair. It is taken separately from the morning scoop.',
+  supportsTitle: ['What Restore', 'supports.'],
+  supports: [
+    { t: 'Sleep quality & nervous-system calm', d: 'Supports the evening transition and normal sleep architecture through nutrients involved in relaxation and recovery.' },
+    { t: 'Overnight recovery', d: 'Helps the body with the nutritional needs linked to tissue repair and restoration while you sleep.' },
+    { t: 'Stress response', d: 'Contributes to the balance of systems that manage daily stress load.' },
+    { t: 'Muscle & joint recovery', d: 'Supports normal recovery processes after physical or mental demand.' },
+    { t: 'Metabolic wind-down', d: 'Aids the shift from daytime activity to overnight rest and repair mode.' },
+    { t: 'Gut rest', d: 'Works with the body’s natural overnight digestive pause.' },
+    { t: 'Next-day readiness', d: 'Aims to improve how you feel when you wake, so the next day’s Origin scoop starts from a better baseline.' },
+  ],
+  whoFor: [
+    'Adults who already take Origin (or another morning product) and want an evening layer.',
+    'People who notice that sleep, recovery, or next-day energy is the weak point in their routine.',
+  ],
   ingredients: [
     'Glycine',
     'N-Acetyl Cysteine (NAC)',
@@ -151,19 +180,20 @@ export const restorePage = {
     'KSM-66 Ashwagandha',
     'Myo-inositol',
   ],
-  howToUse: 'Take in the evening, 30–60 minutes before bed, with or without food. Do not combine with other high-magnesium supplements on the same day. Origin remains the morning product.',
+  howToUse: 'Take one serving in the evening, 30–60 minutes before bed, with water. Many people use it only on higher-demand days; others make it part of their nightly routine. Do not combine with other high-magnesium supplements on the same day.',
   notes: [
     'Evening only.',
     'Optional. Many people use Origin alone.',
     'Consult a physician if pregnant, nursing, or taking medication.',
   ],
-  whyExists: 'Evening is a different biological window from morning. Restore is designed for that window. It does not try to be an all-day product. It does not compete with Origin. You decide whether the night needs covering.',
+  whyTitle: 'Why it matters long-term',
+  whyExists: 'Daytime nutrition covers the waking hours. Overnight is when a large part of repair, memory consolidation, and metabolic reset happens. Restore is the deliberate evening piece so the 24-hour cycle is more complete.',
   faq: [
     { q: 'Is it a sleep aid?', a: 'No. It is not a sleep drug or sedative. It is an evening recovery formula.' },
     { q: 'How much magnesium is in Restore?', a: 'Restore is formulated so that the evening magnesium dose stays within common supplemental guidance when Origin is the only other product used.' },
   ],
   disclaimer: 'These statements have not been evaluated by the Food and Drug Administration or equivalent authority. This product is not intended to diagnose, treat, cure, or prevent any disease.',
-  tag: 'Evening · Optional',
+  tag: 'Night Recovery',
   scrub: '/video/restore-scrub.mp4',
   gallery: [
     { name: 'restore-jar', alt: 'The cream Restore jar with a walnut lid and a scoop of pale powder' },
@@ -192,6 +222,28 @@ export const restorePage = {
   cutout: 'restore-jar-cutout',
   lifestyle: 'fitness',
   detail: 'bottle-tilt',
+};
+
+// Origin + Restore together: shown on both product pages
+export const together = {
+  title: ['Origin + Restore', 'together.'],
+  lead: 'One morning scoop. One night scoop.',
+  lanes: [
+    { id: 'origin', name: 'Origin', text: 'Handles the daytime essentials.' },
+    { id: 'restore', name: 'Restore', text: 'Handles the evening recovery layer.' },
+  ],
+  notes: [
+    'They are not stacked in the same serving.',
+    'The combination covers more of the full day without forcing multiple products at once.',
+  ],
+  pathTitle: 'Simple path for most people',
+  // Each step: the situation, then what to do
+  path: [
+    ['Eat breakfast', 'Take Origin in the morning'],
+    ['Want better recovery or sleep support', 'Add Restore at night'],
+    ['Keep both as long as they fit the day you have'],
+  ],
+  line: 'One scoop for the day you have. Origin in the morning. Restore at night.',
 };
 
 export const sequencePage = {
@@ -311,14 +363,128 @@ export const aboutPage = {
     'Nutrition should evolve as you do, starting with clarity.',
   ],
   legal: 'Primalone Nutrition Pvt Ltd. Wave 1 products: Origin and Restore.',
-  // Founders, from the investor deck
-  founders: {
-    why: 'One of the founders lost his grandfather to Type 2 diabetes and years of unmeasured nutritional neglect. PrimalOne is the protocol he never had.',
-    whyNote: 'Science-backed nutrition for Indian realities: deficiencies, stress, pollution and urban life.',
-    people: [
-      { id: 'rakesh', name: 'Rakesh Kumar', role: 'Founder & CEO', focus: 'Leads product, protocol and tech.', image: '/img/founder-rakesh.webp', w: 387, h: 714 },
-      { id: 'yash', name: 'Yash Gandhi', role: 'Co-Founder & CMO', focus: 'Leads brand, content and growth.', image: '/img/founder-yash.webp', w: 384, h: 702 },
+
+  // What's on India's plate: published diet studies. Bars show the share of the whole (0-100%).
+  plate: {
+    title: 'What’s really on India’s plate?',
+    lead: 'What large Indian diet studies show about the way most of us eat, day to day.',
+    stats: [
+      { value: 62, suffix: '%', of: 'of daily energy', src: 'ICMR–INDIAB, Nature Medicine 2025', label: 'Energy from carbohydrates', body: 'Indian adults got 62% of their daily energy from carbohydrates in a national ICMR study of 18,090 adults.', ref: 1, tone: 'grain' },
+      { value: 12, suffix: '%', of: 'of daily energy', src: 'ICMR–INDIAB, Nature Medicine 2025', label: 'Energy from protein', body: 'Protein made up only about 12% of daily energy in the same study.', ref: 1, tone: 'leaf' },
+      { value: 80, suffix: '%+', of: 'of adults studied', src: 'Delhi study, Public Health Nutrition 2023', label: 'Below recommended intake', body: 'More than 80% of adults in a Delhi study ate less than recommended across most key food groups, from pulses and dairy to fruit and vegetables.', ref: 2, tone: 'sky' },
     ],
+    sources: [
+      'Anjana R.M. et al., “Dietary profiles and associated metabolic risk factors in India from the ICMR–INDIAB survey-21.” Nature Medicine (2025).',
+      'Mediratta S. et al., “Intake of ultra-processed food, dietary diversity and the risk of nutritional inadequacy among adults in India.” Public Health Nutrition (2023). 589 adults aged 20–40, Delhi.',
+    ],
+    disclaimer: 'These figures describe the people studied, not every Indian adult. They are not evidence that Origin or Restore prevents or corrects any nutritional deficiency.',
+  },
+
+  // Why we exist: reality -> gap -> where PrimalOne fits. Columns 1-3 lead to Origin, column 4 to Restore.
+  gap: {
+    eyebrow: 'Why we exist: the everyday gap',
+    title: 'Eating every day isn’t', accent: 'eating everything.',
+    lead: 'Most Indian kitchens cook well. The gap usually comes from repetition, rushed mornings and long days, not from any one food. Here is where it tends to open up, and where PrimalOne fits in.',
+    rows: [
+      { n: '01', h: 'The reality', p: 'How most of us actually eat and live.' },
+      { n: '02', h: 'The gap', p: 'What can quietly go missing.' },
+      { n: '03', h: 'Where we fit', p: 'Support that sits beside your meals.' },
+    ],
+    columns: [
+      {
+        icon: 'plate', photo: 'food-bowl', pos: '50% 50%', reality: 'Grain-first plates', realityBody: 'Rice and roti carry most meals. They give energy, but can crowd out greens and variety.',
+        gap: 'Greens & minerals', gapBody: 'Leafy greens and a steady mineral floor are the first things a repeat plate leaves out.',
+      },
+      {
+        icon: 'sun', photo: 'origin-pour', pos: '62% 40%', reality: 'Rushed mornings', realityBody: 'Breakfast happens, but it is the same quick thing most days.',
+        gap: 'Vitamin D3 & omega‑3s', gapBody: 'Indoor days and few oily-fish meals make these two common shortfalls.',
+      },
+      {
+        icon: 'box', photo: 'origin-sachet', pos: '50% 45%', reality: 'Days on the go', realityBody: 'Snacks and ready food fill the gaps between meals on busy days.',
+        gap: 'Fibre & gut support', gapBody: 'Refined, packaged food often brings little of the fibre whole foods provide.',
+      },
+      {
+        icon: 'moon', photo: 'restore-dusk', pos: '60% 50%', reality: 'Long days, short nights', realityBody: 'Work, screens and stress push wind-down and sleep to the bottom of the list.',
+        gap: 'Evening recovery', gapBody: 'Overnight is when much of the body’s repair happens, and it is easy to shortchange.',
+      },
+    ],
+    band: { tag: 'Where PrimalOne fits', title: 'One scoop for', accent: 'the day you have.', body: 'Origin covers the daytime essentials. Restore covers the evening recovery layer. Designed to sit beside real food, never to replace it.' },
+    solutions: [
+      { id: 'origin', span: 3, when: 'Morning', line: 'Greens, omega-3s, vitamin D3 + K2, minerals, CoQ10, probiotic and prebiotic fibre' },
+      { id: 'restore', span: 1, when: 'Night', line: 'Glycine, NAC, magnesium, ashwagandha, myo-inositol' },
+    ],
+    note: 'Gaps differ from person to person. Diet studies describe groups of people, not you, so start with food and add what fits your day.',
+  },
+
+  // Ingredient philosophy: four principles beside a photo mosaic
+  philosophy: {
+    eyebrow: 'Our ingredient philosophy',
+    title: 'Know what goes', accent: 'into every scoop.',
+    lead: 'Every ingredient earns its place. We tell you why it is there, show exactly how much you get, and time it for the part of the day it belongs to.',
+    points: [
+      { h: 'A job for every ingredient', p: 'Each one is chosen for a specific purpose, at the amount stated on the label.' },
+      { h: 'Built around food', p: 'Made to complement breakfast and dinner. Not a meal replacement, not a protein shake.' },
+      { h: 'Nothing hidden', p: 'Full ingredient lists and per-serving amounts. No proprietary blends.' },
+      { h: 'Timed, never stacked', p: 'Morning ingredients live in Origin, evening ones in Restore. They are never taken in the same serving.' },
+    ],
+    tag: 'Greens · Omega-3s · Probiotics · Glycine',
+    card: { title: 'Timing first.', body: 'Then every ingredient chosen, measured and labelled around the moment you take it.' },
+  },
+
+  // Product content: what each scoop supports, who it is for, how to use it, why it matters
+  range: {
+    eyebrow: 'The range',
+    title: 'Two scoops.', accent: 'One full day.',
+    items: {
+      origin: {
+        tab: 'Morning', kicker: 'Daily Nutrition', img: 'origin-stir', imgAlt: 'Origin being stirred into a glass in morning light',
+        intro: 'Origin is the everyday foundation for adults who already eat breakfast. One scoop in the morning supports the systems that run on micronutrients, healthy fats, gut function and cellular energy: the shared layer almost everyone needs, every day.',
+        supportsTitle: 'What Origin supports',
+        supports: [
+          ['Energy & cellular function', 'Helps maintain the micronutrient floor that supports normal energy metabolism and cellular activity.'],
+          ['Immune readiness', 'Contributes to the nutritional baseline the immune system uses daily.'],
+          ['Digestive comfort & gut environment', 'Includes elements that support normal digestion and a balanced gut.'],
+          ['Bone, muscle & structural support', 'Supplies key minerals and co-factors involved in everyday structural maintenance.'],
+          ['Brain & nervous system', 'Provides nutrients involved in normal cognitive function and nervous-system activity.'],
+          ['Heart & circulation', 'Supports the nutritional needs linked to cardiovascular health markers.'],
+          ['Skin, hair & overall vitality', 'Contributes to the micronutrient status that shows up in everyday appearance and recovery.'],
+          ['Daily resilience', 'Helps close common gaps that appear even in reasonably good diets: vitamin D, omega-3, certain minerals and fibre-related compounds.'],
+        ],
+        who: ['Adults 18+ who eat breakfast and want a single, reliable morning scoop instead of multiple bottles.', 'It is not positioned as a short-term primer or a meal replacement.'],
+        how: ['Mix one serving with water or a cold beverage in the morning.', 'Take it as your daily essentials. It is designed to stand alone and does not need to be stacked with other morning products.'],
+        why: 'Most people do not stay perfectly consistent with food quality, travel, work stress or seasonal changes. Origin is built as the constant layer that stays in the routine for years, not weeks. It supports the systems that quietly affect energy, recovery, immunity and how you feel day to day.',
+      },
+      restore: {
+        tab: 'Night', kicker: 'Night Recovery', img: 'restore-dusk', imgAlt: 'Restore jar and glass in evening light',
+        intro: 'Restore is the night companion for people who want support around wind-down, recovery and overnight repair. It is taken separately from the morning scoop.',
+        supportsTitle: 'What Restore supports',
+        supports: [
+          ['Sleep quality & nervous-system calm', 'Supports the evening transition and normal sleep architecture through nutrients involved in relaxation and recovery.'],
+          ['Overnight recovery', 'Helps the body with the nutritional needs linked to tissue repair and restoration while you sleep.'],
+          ['Stress response', 'Contributes to the balance of systems that manage daily stress load.'],
+          ['Muscle & joint recovery', 'Supports normal recovery processes after physical or mental demand.'],
+          ['Metabolic wind-down', 'Aids the shift from daytime activity to overnight rest and repair mode.'],
+          ['Gut rest', 'Works with the body’s natural overnight digestive pause.'],
+          ['Next-day readiness', 'Aims to improve how you feel when you wake, so the next day’s Origin scoop starts from a better baseline.'],
+        ],
+        who: ['Adults who already take Origin (or another morning product) and want an evening layer.', 'People who notice that sleep, recovery or next-day energy is the weak point in their routine.'],
+        how: ['Take one serving in the evening, 30–60 minutes before bed, with water.', 'Many people use it only on higher-demand days; others make it part of their nightly routine.'],
+        why: 'Daytime nutrition covers the waking hours. Overnight is when a large part of repair, memory consolidation and metabolic reset happens. Restore is the deliberate evening piece, so the 24-hour cycle is more complete.',
+      },
+    },
+    together: {
+      eyebrow: 'Origin + Restore together',
+      title: 'One morning scoop.', accent: 'One night scoop.',
+      points: [
+        'Origin handles the daytime essentials.',
+        'Restore handles the evening recovery layer.',
+        'They are not stacked in the same serving.',
+        'Together they cover more of the full day without forcing multiple products at once.',
+      ],
+      pathTitle: 'A simple path for most people',
+      path: ['Eat breakfast, then take Origin in the morning.', 'Want better recovery or sleep support? Add Restore at night.', 'Keep both as long as they fit the day you have.'],
+      quote: 'One scoop for the day you have.', quoteSub: 'Origin in the morning. Restore at night.',
+    },
   },
 };
 
@@ -466,37 +632,15 @@ export const contactPage = {
   },
 };
 
+// Short policies. Returns, Privacy and Terms are full documents in legal.js
 export const legalPages = {
   shipping: {
     title: 'Shipping',
+    lead: 'How orders are processed and delivered.',
     body: [
       'Delivery timelines and carrier details are confirmed at checkout. We do not offer cash on delivery.',
       'Orders typically process within 1–2 business days. Transit times vary by destination.',
       'For shipment questions, contact us with your order reference.',
-    ],
-  },
-  returns: {
-    title: 'Returns',
-    body: [
-      'If something arrives damaged or incorrect, contact us promptly with your order details and photos where helpful.',
-      'Unopened products may be eligible for return under our standard policy as stated at checkout and on pack.',
-      'Food supplements that have been opened are generally not returnable for hygiene reasons.',
-    ],
-  },
-  privacy: {
-    title: 'Privacy',
-    body: [
-      'We collect only what we need to fulfill orders, support your account, and improve the site experience.',
-      'We do not sell personal information. Payment processing is handled by trusted third-party providers.',
-      'Contact us to request access, correction, or deletion of personal data we hold about you.',
-    ],
-  },
-  terms: {
-    title: 'Terms',
-    body: [
-      'By using this site and purchasing PrimalOne products, you agree to these terms and applicable law.',
-      'Products are food supplements. They are not intended to diagnose, treat, cure, or prevent any disease.',
-      'Pricing, availability, and pack sizes may change. Wave 1 products are Origin and Restore only.',
     ],
   },
 };

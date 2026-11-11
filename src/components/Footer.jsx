@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { footer } from '../data/content.js';
 import Icon from './ui/Icon.jsx';
@@ -36,23 +35,6 @@ function PayLogo({ id }) {
   return <span className={`site-footer__pay-logo site-footer__pay-logo--${id}`} role="img" aria-label={l.label} title={l.label}>{l.svg}</span>;
 }
 
-// "Designed & developed by" credit: the logo, or the name if the logo fails to load.
-function Credit() {
-  const c = footer.credit;
-  const [logoOk, setLogoOk] = useState(true);
-  const inner = (
-    <>
-      <span>Designed &amp; developed by</span>
-      {logoOk
-        ? <img src={c.logo} alt={c.label} width="184" height="78" loading="lazy" onError={() => setLogoOk(false)} />
-        : <b>{c.label}</b>}
-    </>
-  );
-  return c.href
-    ? <a className="site-footer__credit" href={c.href} target="_blank" rel="noreferrer" aria-label={`Designed and developed by ${c.label}`}>{inner}</a>
-    : <span className="site-footer__credit">{inner}</span>;
-}
-
 export default function Footer() {
   return (
     <footer className="site-footer on-night">
@@ -63,7 +45,6 @@ export default function Footer() {
               <img src="/img/logo-wordmark-light.png" alt="" width="520" height="116" loading="lazy" />
             </Link>
             <p className="site-footer__tagline">{footer.tagline}</p>
-            <p className="site-footer__trust mono">{footer.trust}</p>
           </div>
 
           <div className="site-footer__navs">
@@ -98,7 +79,6 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="site-footer__made">{footer.manufacturer}</p>
         <div className="site-footer__pay" aria-label="Payment methods we accept">
           {footer.payments.map((id) => <PayLogo key={id} id={id} />)}
         </div>
@@ -106,7 +86,6 @@ export default function Footer() {
         <div className="site-footer__bottom">
           <span>{footer.legal}</span>
           <span className="site-footer__legal-links"><Link to="/terms">Terms of use</Link><Link to="/privacy">Privacy</Link></span>
-          <Credit />
         </div>
       </div>
 

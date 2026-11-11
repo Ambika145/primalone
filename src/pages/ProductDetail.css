@@ -279,3 +279,86 @@
   .pd-myth__card .pd-myth__is > * { opacity: 1; transform: none; transition: none; }
   .pd-myth__card { transition: none; }
 }
+
+/* ---- What it supports: a heading and one line per card ---- */
+.pd-sup__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); margin: 0; padding: 0; list-style: none; }
+.pd-sup__grid > .reveal { height: 100%; }
+.pd-sup__card {
+  position: relative; height: 100%; display: flex; flex-direction: column; gap: 12px; overflow: hidden;
+  padding: clamp(22px, 2.2vw, 30px); border-radius: 26px; background: #fff; box-shadow: inset 0 0 0 1px var(--line);
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+.pd-sup__card::before {
+  content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: linear-gradient(90deg, var(--green), var(--gold));
+  transform: scaleX(.18); transform-origin: left; transition: transform .7s var(--ease-out);
+}
+.pd-sup__card:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px var(--line), 0 30px 60px -36px rgba(14, 27, 18, .45); }
+.pd-sup__card:hover::before { transform: scaleX(1); }
+.pd-sup__t { font-size: clamp(18px, 1.4vw, 21px); font-weight: 600; letter-spacing: -.02em; line-height: 1.25; }
+.pd-sup__d { font-size: 15px; line-height: 1.6; color: var(--muted); }
+.pd--restore .pd-sup__card { background: rgba(246, 241, 231, .05); box-shadow: inset 0 0 0 1px var(--line-dark); }
+.pd--restore .pd-sup__card::before { background: linear-gradient(90deg, var(--gold-soft), var(--green-soft)); }
+.pd--restore .pd-sup__card:hover { background: rgba(246, 241, 231, .09); box-shadow: inset 0 0 0 1px var(--line-dark), 0 30px 60px -36px rgba(0, 0, 0, .7); }
+.pd--restore .pd-sup__d { color: var(--muted-dark); }
+/* an odd last card closes the row */
+.pd-sup__grid > :last-child:nth-child(4n + 3) { grid-column: span 2; }
+
+/* ---- Who it's for ---- */
+.pd-who { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 88px); align-items: start; }
+.pd-who__list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.pd-who__list li {
+  display: flex; align-items: flex-start; gap: 14px; padding: clamp(18px, 1.8vw, 24px); border-radius: 22px;
+  font-size: clamp(17px, 1.4vw, 21px); font-weight: 500; letter-spacing: -.015em; line-height: 1.4;
+  background: #fff; box-shadow: inset 0 0 0 1px var(--line);
+}
+.pd--restore .pd-who__list li { background: rgba(246, 241, 231, .05); box-shadow: inset 0 0 0 1px var(--line-dark); }
+.pd-who__icon { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--forest); color: var(--cream); }
+.pd--restore .pd-who__icon { background: var(--gold-soft); color: var(--forest); }
+
+/* ---- Origin + Restore together ---- */
+.pd--restore .pd-tog { background: var(--sand); color: var(--ink); }
+.pd--restore .pd-tog .x-lead { color: var(--muted); }
+.pd--restore .pd-tog .x-h2 .is-accent { color: var(--green); }
+.pd-tog__panel { display: grid; gap: clamp(20px, 2.4vw, 32px); padding: clamp(18px, 2.4vw, 32px); border-radius: 34px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.pd-tog__lanes { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.4vw, 18px); }
+.pd-tog__lanes > .reveal { height: 100%; }
+.pd-tog__lane { height: 100%; display: flex; align-items: center; gap: clamp(14px, 1.6vw, 22px); padding: clamp(18px, 2vw, 28px); border-radius: 26px; transition: transform .5s var(--ease-out); }
+.pd-tog__lane:hover { transform: translateY(-4px); }
+.pd-tog__lane--origin { background: linear-gradient(150deg, #f3eee2, #e3ead6); }
+.pd-tog__lane--restore { background: radial-gradient(70% 90% at 100% 0%, rgba(217, 191, 134, .22), transparent 70%), var(--forest); color: var(--cream); }
+.pd-tog__lane img { flex: none; width: clamp(72px, 7vw, 96px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; background: var(--cream); }
+.pd-tog__lane--origin img { background: #fff; }
+.pd-tog__lane p { margin-top: 6px; font-size: clamp(16px, 1.25vw, 18px); line-height: 1.45; color: var(--muted); }
+.pd-tog__lane--restore p { color: var(--muted-dark); }
+.pd-tog__notes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px clamp(16px, 2vw, 28px); margin: 0; padding: 0 clamp(4px, .6vw, 8px); list-style: none; }
+.pd-tog__notes li { display: flex; align-items: flex-start; gap: 10px; font-size: 15.5px; line-height: 1.55; color: var(--muted); }
+.pd-tog__notes .icon { flex: none; margin-top: 3px; color: var(--green); }
+.pd-tog__path { padding-top: clamp(20px, 2.4vw, 32px); border-top: 1px solid var(--line); }
+.pd-tog__path ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 16px); margin: 16px 0 0; padding: 0; list-style: none; }
+.pd-tog__path li {
+  height: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 18px 20px; border-radius: 20px;
+  background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); font-size: 15.5px; line-height: 1.45;
+}
+.pd-tog__path li span { flex-basis: 100%; color: var(--muted); }
+.pd-tog__path li .icon { color: var(--gold); }
+.pd-tog__path li b { font-weight: 600; color: var(--forest); }
+.pd-tog__line {
+  padding: clamp(8px, 1.4vw, 16px) 0 clamp(4px, .8vw, 8px); text-align: center; text-wrap: balance;
+  font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -.03em; line-height: 1.2;
+  font-size: clamp(22px, 2.4vw, 36px); color: var(--forest);
+}
+
+@media (max-width: 991.98px) {
+  .pd-sup__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pd-sup__grid > :last-child:nth-child(4n + 3) { grid-column: auto; }
+  .pd-sup__grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .pd-who { grid-template-columns: 1fr; }
+  .pd-tog__path ol { grid-template-columns: 1fr; }
+}
+@media (max-width: 767.98px) {
+  .pd-sup__grid { grid-template-columns: 1fr; }
+  .pd-tog__lanes, .pd-tog__notes { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pd-sup__card, .pd-sup__card::before, .pd-tog__lane { transition: none; }
+}

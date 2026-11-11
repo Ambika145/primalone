@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { formatINR } from '../data/pages.js';
+import { formatINR, together } from '../data/pages.js';
 import { useCart } from '../context/CartContext.jsx';
 import { useInView, useReducedMotion } from '../hooks/motion.js';
 import Icon from '../components/ui/Icon.jsx';
@@ -120,6 +120,46 @@ function ScrollQuote({ text }) {
   );
 }
 
+// Origin + Restore together: the two lanes, the simple path, and the closing line
+function Together() {
+  const t = together;
+  return (
+    <section className="x-sec pd-tog">
+      <div className="shell">
+        <SecHead title={t.title[0]} accent={t.title[1]} lead={t.lead} />
+        <div className="pd-tog__panel">
+          <div className="pd-tog__lanes">
+            {t.lanes.map((l, i) => (
+              <Reveal key={l.id} delay={i * 120} className={`pd-tog__lane pd-tog__lane--${l.id}`}>
+                <img src={`/img/${l.id}-turn-poster.webp`} alt="" width="96" height="96" loading="lazy" />
+                <div>
+                  <h3 className="x-h3">{l.name}</h3>
+                  <p>{l.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <ul className="pd-tog__notes">
+            {t.notes.map((n) => <li key={n}><Icon name="check" size={18} />{n}</li>)}
+          </ul>
+          <div className="pd-tog__path">
+            <h3 className="x-h3">{t.pathTitle}</h3>
+            <ol>
+              {t.path.map(([when, then], i) => (
+                <Reveal as="li" key={when} delay={i * 110}>
+                  <span>{when}</span>
+                  {then && <><Icon name="arrow" size={18} /><b>{then}</b></>}
+                </Reveal>
+              ))}
+            </ol>
+          </div>
+          <Reveal as="p" className="pd-tog__line">{t.line}</Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Product detail page for Origin (morning, light) and Restore (night, dark).
 export default function ProductDetail({ p }) {
   const night = p.id === 'restore';
@@ -142,6 +182,21 @@ export default function ProductDetail({ p }) {
         <div className="shell pd-top__grid">
           <Gallery p={p} />
           <BuyBox p={p} ctaRef={ctaRef} />
+        </div>
+      </section>
+
+      {/* ---- What it supports ---- */}
+      <section className={`x-sec pd-sup ${night ? 'x-sec--forest' : ''}`}>
+        <div className="shell">
+          <SecHead title={p.supportsTitle[0]} accent={p.supportsTitle[1]} />
+          <ul className="pd-sup__grid">
+            {p.supports.map((s, i) => (
+              <Reveal as="li" key={s.t} delay={(i % 4) * 90} className="pd-sup__card">
+                <h3 className="pd-sup__t">{s.t}</h3>
+                <p className="pd-sup__d">{s.d}</p>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -180,14 +235,24 @@ export default function ProductDetail({ p }) {
         </div>
       </section>
 
-      {/* ---- Why it exists (Origin also lists what it is not) ---- */}
+      {/* ---- Who it's for, what it is not (Origin), and why it matters long-term ---- */}
       <section className={`x-sec pd-why ${night ? '' : 'x-sec--cream'}`}>
         <div className={`shell pd-why__grid ${p.isNot ? '' : 'is-solo'}`}>
+          <div className="pd-who">
+            <Reveal><h2 className="x-h2">Who it’s <span className="is-accent">for.</span></h2></Reveal>
+            <ul className="pd-who__list">
+              {p.whoFor.map((w, i) => (
+                <Reveal as="li" key={w} delay={i * 120}>
+                  <span className="pd-who__icon"><Icon name="check" size={18} /></span>{w}
+                </Reveal>
+              ))}
+            </ul>
+          </div>
           {p.isNot && (
             <div className="pd-myth">
               <Reveal className="pd-myth__head">
                 <h2 className="x-h2">What Origin <span className="is-accent">is not.</span></h2>
-                <p className="x-lead">And what it is instead.</p>
+                <p className="x-lead">{p.isNotLead}</p>
               </Reveal>
               <ol className="pd-myth__grid">
                 {p.isNot.map((n, i) => (
@@ -206,11 +271,13 @@ export default function ProductDetail({ p }) {
             </div>
           )}
           <Reveal delay={100} className="pd-quote">
-            <h2 className="pd-quote__label">Why this exists</h2>
+            <h2 className="pd-quote__label">{p.whyTitle}</h2>
             <ScrollQuote text={p.whyExists} />
           </Reveal>
         </div>
       </section>
+
+      <Together />
 
       {/* ---- FAQ ---- */}
       <section className={`x-sec pd-faq ${night ? 'x-sec--forest' : 'x-sec--sand'}`}>
